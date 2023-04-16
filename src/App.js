@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import './App.scss';
-import {GeneralContext} from "./contexts/GeneralContext";
+// import {GeneralContext} from "./contexts/GeneralContext";
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import {Home} from './Components/Home';
 
 const App = () => {
-    const {loggedIn, langDir} = useContext(GeneralContext);
+    // const {loggedIn} = useContext(GeneralContext);
 
     const theme = createTheme({
         typography: {
@@ -34,7 +34,7 @@ const App = () => {
     return (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
-                <div className={`App ${langDir}`}>
+                <div className={`App`}>
                     <Home/>
                 </div>
             </ThemeProvider>
