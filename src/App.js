@@ -6,7 +6,7 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import {Home} from './Components/Home';
 
-const App = () => {
+const App = (props) => {
     // const {loggedIn} = useContext(GeneralContext);
 
     const theme = createTheme({
@@ -17,7 +17,7 @@ const App = () => {
         },
         palette: {
             primary: {
-                main: "#152d48"
+                main: "#1F1F1F"
             },
             secondary: {
                 main: "#4B92FE"
@@ -35,7 +35,7 @@ const App = () => {
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
                 <div className={`App`}>
-                    <Home/>
+                    <Home history={props.history}/>
                 </div>
             </ThemeProvider>
         </StyledEngineProvider>

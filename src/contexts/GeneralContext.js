@@ -1,14 +1,19 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, /*useEffect,*/ useState} from 'react';
 // import {auth} from "../Firebase";
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import {languages} from '../enums';
 import {language} from "../content/language";
-import {createBrowserHistory} from 'history';
 import {Modal} from "@mui/material";
 // import {Utility} from '../Utility';
 
 // const SESSION_MAX_TIME = 10 * 60 * 1000;
 // const ONE_DAY = 1000 * 60 * 60 * 24;
+
+export const routes = {
+    CONFIGURATOR: 'configurator',
+    ROOT: '/',
+    NOT_FOUND: '404'
+};
 
 export const GeneralContext = createContext(null);
 
@@ -19,10 +24,8 @@ export const GeneralProvider = props => {
     // const [loggedIn, setLoggedIn] = useState(false);
     const [appLang, setAppLang] = useState(languages.ENGLISH);
     const [sideMenuOpen, setSideMenuOpen] = useState(true);
-    const [mainSelection, setMainSelection] = useState("");
     const content = language[appLang];
 
-    const history = createBrowserHistory();
 
     // useEffect(() => {
     //     return auth.onAuthStateChanged((user) => {
@@ -91,14 +94,12 @@ export const GeneralProvider = props => {
             switchLanguage,
             toggleSideMenu,
             setContentLoading,
-            setMainSelection,
             // userDetails,
             // loggedIn,
+            content,
             appLang,
             sideMenuOpen,
-            mainSelection,
             contentLoading,
-            history,
         }}>
             {contentLoading
                 ? renderLoader(contentLoading)

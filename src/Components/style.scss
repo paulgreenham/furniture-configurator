@@ -24,3 +24,16 @@ $app-bar-height: 50px;
     width: calc(100% - 20px);
     height: 100%;
 }
+
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.standard-btn {
+    min-width: 180px;
+    width: fit-content;
+}

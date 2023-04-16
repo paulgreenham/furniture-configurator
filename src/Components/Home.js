@@ -1,39 +1,39 @@
 import React, {useContext, useEffect} from 'react';
-import {GeneralContext} from "../contexts/GeneralContext";
-import {Utility, useForceUpdate} from "../Utility";
+import {GeneralContext, routes} from "../contexts/GeneralContext";
+import {useForceUpdate} from "../Utility";
 import "./style.scss"
 import CssBaseline from '@mui/material/CssBaseline';
-import {Paper} from "@mui/material";
-import {language} from "../content/language";
+import {Button, Paper} from "@mui/material";
+import {Configurator} from "./Configurator/Configurator";
+import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 
-export const routes = {
-    ROOT: '/',
-    NOT_FOUND: '/404'
-};
-
-export const Home = () => {
-    const {appLang, setMainSelection} = useContext(GeneralContext);
-    const content = language[appLang];
+export const Home = (props) => {
+    const {content} = useContext(GeneralContext);
     const forceUpdate = useForceUpdate();
-
-    const path = Utility.getPathArray();
-    let currentLocation = path[path.length - 1];
 
     useEffect(() => {
         window.addEventListener('popstate', forceUpdate);
         return () => window.removeEventListener('popstate', forceUpdate);
     }, [forceUpdate])
 
-    const renderMain = () => {
-        switch ("/" + currentLocation) {
-            case routes.ROOT:
-                setMainSelection("");
-                return <div>{content.WELCOME_TO_INCHI}</div>
-            default:
-                setMainSelection("");
-                return <div>{content.NOT_FOUND}</div>
-        }
-    }
+    const renderMain = () =>
+        <BrowserRouter history={props.history}>
+            <Routes>
+                <Route path={routes.CONFIGURATOR} element={<Configurator/>}/>
+                <Route path={routes.NOT_FOUND} element={<div>{content.NOT_FOUND}</div>}/>
+                <Route path={routes.ROOT} element={<div className='landing-page'>
+                    {content.WELCOME_TO_INCHI}
+                    <Link to={routes.CONFIGURATOR}>
+                        <Button
+                            className='standard-btn'
+                            variant='contained'
+                        >
+                            {content.TRY_OUR_CONFIGURATOR}
+                        </Button>
+                    </Link>
+                </div>}/>
+            </Routes>
+        </BrowserRouter>
 
     return (
         <div className={`main-container`}>
