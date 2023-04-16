@@ -1,0 +1,26 @@
+$color-primary: #152d48;
+$color-primary-opacity-50: rgba(252, 126, 0, 0.25);
+$color-secondary: #4b92fe;
+$color-action: #2F80ED;
+$color-error: #FF1F1F;
+$color-white: #FFFFFF;
+$color-grey: rgba(0, 0, 0, 0.12);
+$side-panel-width: 220px;
+$app-bar-height: 50px;
+
+.main-container {
+    height: 100%;
+    padding-top: $app-bar-height + 20px;
+
+    &.shift-left {
+        margin-left: $side-panel-width + 20px;
+    }
+}
+
+.selection-container {
+    padding: 20px;
+    font-size: 16px;
+    color: $color-primary;
+    width: calc(100% - 20px);
+    height: 100%;
+}

@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useContext} from 'react';
+import './App.scss';
+import {GeneralContext} from "./contexts/GeneralContext";
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {Home} from './Components/Home';
+
+const App = () => {
+    const {loggedIn, langDir} = useContext(GeneralContext);
+
+    const theme = createTheme({
+        typography: {
+            fontFamily: [
+                'Open Sans', ' sans-serif'
+            ].join(','),
+        },
+        palette: {
+            primary: {
+                main: "#152d48"
+            },
+            secondary: {
+                main: "#4B92FE"
+            },
+            action: {
+                main: "#2F80ED"
+            },
+            error: {
+                main: "#FF1F1F"
+            }
+        },
+    });
+
+    return (
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <div className={`App ${langDir}`}>
+                    <Home/>
+                </div>
+            </ThemeProvider>
+        </StyledEngineProvider>
+    );
 }
 
 export default App;
