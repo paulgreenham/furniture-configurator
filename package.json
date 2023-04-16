@@ -23,14 +23,14 @@
     "Client:dev": "node scripts/beforeFunctions.js dev && react-scripts start",
     "Serve:dev:functions": "firebase use dev && firebase emulators:start --only functions",
     "Serve:prod:functions": "firebase use prod && firebase emulators:start --only functions",
-    "Deploy:dev:functions": "node scripts/beforeFunctions.js dev && firebase deploy -P dev --only functions && node scripts/afterDeploy.js dev-functions",
-    "Deploy:dev:hosting": "node scripts/beforeFunctions.js dev && yarn run build && firebase deploy -P dev --only hosting && node scripts/afterDeploy.js dev-hosting",
-    "Deploy:dev": "node scripts/beforeFunctions.js dev && yarn run build && firebase deploy -P dev && node scripts/afterDeploy.js dev-all",
+    "Deploy:dev:functions": "node scripts/beforeFunctions.js dev && firebase deploy --only functions && node scripts/afterDeploy.js dev-functions",
+    "Deploy:dev:hosting": "node scripts/beforeFunctions.js dev && npm run build && firebase deploy --only hosting && node scripts/afterDeploy.js dev-hosting",
+    "Deploy:dev": "node scripts/beforeFunctions.js dev && npm run build && firebase deploy && node scripts/afterDeploy.js dev-all",
     "Client:prod:emulator": "node scripts/beforeFunctions.js prod-emulator && react-scripts start",
     "Client:prod": "node scripts/beforeFunctions.js prod && react-scripts start",
-    "Deploy:prod:functions": "//node scripts/beforeFunctions.js prod && firebase deploy -P prod --only functions && node scripts/afterDeploy.js prod-functions",
-    "Deploy:prod:hosting": "//node scripts/beforeFunctions.js prod && yarn run build && firebase deploy -P prod --only hosting && node scripts/afterDeploy.js prod-hosting",
-    "Deploy:prod": "//node scripts/beforeFunctions.js prod && yarn run build && firebase deploy -P prod && node scripts/afterDeploy.js prod-all"
+    "Deploy:prod:functions": "//node scripts/beforeFunctions.js prod && firebase deploy --only functions && node scripts/afterDeploy.js prod-functions",
+    "Deploy:prod:hosting": "//node scripts/beforeFunctions.js prod && npm run build && firebase deploy --only hosting && node scripts/afterDeploy.js prod-hosting",
+    "Deploy:prod": "//node scripts/beforeFunctions.js prod && npm run build && firebase deploy && node scripts/afterDeploy.js prod-all"
   },
   "eslintConfig": {
     "extends": [
