@@ -3,9 +3,10 @@ import {GeneralContext, routes} from "../contexts/GeneralContext";
 import {useForceUpdate} from "../Utility";
 import "./style.scss"
 import CssBaseline from '@mui/material/CssBaseline';
-import {Button, Paper} from "@mui/material";
+import {Paper} from "@mui/material";
 import {Configurator} from "./Configurator/Configurator";
-import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import logo from '../assets/logos/Logo_Inchi_white_background.jpg';
 
 export const Home = (props) => {
     const {content} = useContext(GeneralContext);
@@ -19,18 +20,11 @@ export const Home = (props) => {
     const renderMain = () =>
         <BrowserRouter history={props.history}>
             <Routes>
-                <Route path={routes.CONFIGURATOR} element={<Configurator/>}/>
                 <Route path={routes.NOT_FOUND} element={<div>{content.NOT_FOUND}</div>}/>
                 <Route path={routes.ROOT} element={<div className='landing-page'>
+                    <img src={logo} alt='INCHI logo' className='logo'/>
                     {content.WELCOME_TO_INCHI}
-                    <Link to={routes.CONFIGURATOR}>
-                        <Button
-                            className='standard-btn'
-                            variant='contained'
-                        >
-                            {content.TRY_OUR_CONFIGURATOR}
-                        </Button>
-                    </Link>
+                    <Configurator/>
                 </div>}/>
             </Routes>
         </BrowserRouter>

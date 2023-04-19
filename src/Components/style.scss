@@ -4,6 +4,7 @@ $color-secondary: #4b92fe;
 $color-action: #2F80ED;
 $color-error: #FF1F1F;
 $color-white: #FFFFFF;
+$color-slate-grey: #1F1F1F;
 $color-grey: rgba(0, 0, 0, 0.12);
 $side-panel-width: 220px;
 $app-bar-height: 50px;
@@ -36,4 +37,8 @@ $app-bar-height: 50px;
 .standard-btn {
     min-width: 180px;
     width: fit-content;
+}
+
+.logo {
+    border: 2px solid $color-slate-grey;
 }
