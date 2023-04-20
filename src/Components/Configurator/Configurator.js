@@ -8,16 +8,20 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 export const Configurator = () => {
     // const {content} = useContext(GeneralContext);
     const scene = new THREE.Scene();
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    const renderer = new THREE.WebGLRenderer({alpha: true});
+    renderer.setClearColor( 0xffffff, 0);
+    renderer.setSize(window.innerWidth / 1.5, window.innerHeight / 1.5);
     const configuratorRef = useRef(null);
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const geometry = new THREE.BoxGeometry(5, 1, 0.1);
     const material = new THREE.MeshBasicMaterial({color: 0x753107});
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
+    cube.rotation.x += 15;
+    cube.rotation.y += 15;
+    cube.rotation.z += 30;
 
     camera.position.z = 5;
     const controls = new OrbitControls(camera, renderer.domElement);
