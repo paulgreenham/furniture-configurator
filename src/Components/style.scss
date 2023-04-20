@@ -4,7 +4,7 @@ $color-secondary: #4b92fe;
 $color-action: #2F80ED;
 $color-error: #FF1F1F;
 $color-white: #FFFFFF;
-$color-slate-grey: #1F1F1F;
+$color-slate-grey: #444446;
 $color-grey: rgba(0, 0, 0, 0.12);
 $side-panel-width: 220px;
 $app-bar-height: 50px;
@@ -40,7 +40,7 @@ $app-bar-height: 50px;
 }
 
 .logo {
-    border: 2px solid $color-slate-grey;
+    border: 1px solid $color-slate-grey;
     width: 180px;
     height: 73.5px;
 }
