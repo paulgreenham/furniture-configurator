@@ -22,7 +22,7 @@ export const Home = (props) => {
             <Routes>
                 <Route path={routes.NOT_FOUND} element={<div>{content.NOT_FOUND}</div>}/>
                 <Route path={routes.ROOT} element={<div className='landing-page'>
-                    <img src={logo} alt='INCHI logo' className='logo'/>
+                    {/*<img src={logo} alt='INCHI logo' className='logo'/>*/}
                     {content.WELCOME_TO_INCHI}
                     <Configurator/>
                 </div>}/>

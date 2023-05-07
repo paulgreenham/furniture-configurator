@@ -1,14 +1,25 @@
-import React, {/*useContext,*/ useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "../style.scss"
 // import {GeneralContext} from "../../contexts/GeneralContext";
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import birchSurface from '../../assets/textures/birch_surface.jpg';
+import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
 
-const addShelfSection = (scene, dimensions, materialObj, position) => {
-    const geometry = new THREE.BoxGeometry(...dimensions);  //[w, h, d]
-    const material = new THREE.MeshPhongMaterial(materialObj);
-    const shelfSection = new THREE.Mesh(geometry, material);
+const addShelfSection = (scene, dimensions, position, isVertical = false) => {
+    const textureLoader = new THREE.TextureLoader();
+    const shelfSide = textureLoader.load(birchSurface);
+    const shelfEdge = textureLoader.load(plywoodEdge);
+
+    const geometry = new THREE.BoxGeometry(...dimensions, );  //[w, h, d]
+    const sideMaterial = new THREE.MeshStandardMaterial({map: shelfSide});
+    const edgeMaterial = new THREE.MeshStandardMaterial({map: shelfEdge});
+    const shelfSection = new THREE.Mesh(geometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
+
+    if (isVertical) {
+        shelfSection.rotateZ(Math.PI / 2);
+    }
 
     scene.add(shelfSection);
     const {x, y, z} = position;
@@ -38,7 +49,7 @@ export const Configurator = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({alpha: true});
+    const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setClearColor( 0x000000, 0);
     renderer.setSize(window.innerWidth / 1.5, window.innerHeight / 1.5);
     const configuratorRef = useRef(null);
@@ -57,10 +68,10 @@ export const Configurator = () => {
 
     const loadShelf = () => {
         const updatedShelfArr = [
-            addShelfSection(scene, [5, 0.1, 1], {color: 0x753107}, {}),
-            addShelfSection(scene, [5, 0.1, 1], {color: 0x753107}, {y: 1.95}),
-            addShelfSection(scene, [0.1, 4, 1], {color: 0x753107}, {x: -2.5}),
-            addShelfSection(scene, [0.1, 4, 1], {color: 0x753107}, {x: 2.5}),
+            addShelfSection(scene, [5, 0.1, 1], {}),
+            addShelfSection(scene, [5, 0.1, 1], {y: 1.8}),
+            addShelfSection(scene, [4, 0.1, 1], {x: -2.3}, true),
+            addShelfSection(scene, [4, 0.1, 1], {x: 2.3}, true),
         ];
         setShelfArr(updatedShelfArr);
     }
