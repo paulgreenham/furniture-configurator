@@ -104,10 +104,10 @@ export const Configurator = () => {
 
     const loadShelf = () => {
         const updatedShelfArr = [
-            addShelfSection(scene, [5, 0.1, 1], {}, edgeRadius),
-            addShelfSection(scene, [5, 0.1, 1], {y: 1.8}, edgeRadius),
-            addShelfSection(scene, [4, 0.1, 1], {x: -2.3}, edgeRadius, true),
-            addShelfSection(scene, [4, 0.1, 1], {x: 2.3}, edgeRadius, true),
+            addShelfSection(scene, [5, 0.04, 1], {}, edgeRadius),
+            addShelfSection(scene, [5, 0.04, 1], {y: 1.92}, edgeRadius),
+            addShelfSection(scene, [4, 0.04, 1], {x: -2.42}, edgeRadius, true),
+            addShelfSection(scene, [4, 0.04, 1], {x: 2.42}, edgeRadius, true),
         ];
         setShelfArr(updatedShelfArr);
     }
