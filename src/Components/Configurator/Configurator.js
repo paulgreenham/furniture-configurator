@@ -7,15 +7,51 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
 
-const addShelfSection = (scene, dimensions, position, isVertical = false) => {
+const edgeRadius = 0.03;
+
+const addShelfSection = (scene, dimensions, position, radius, isVertical = false) => {
     const textureLoader = new THREE.TextureLoader();
     const shelfSide = textureLoader.load(birchSurface);
     const shelfEdge = textureLoader.load(plywoodEdge);
 
-    const geometry = new THREE.BoxGeometry(...dimensions, );  //[w, h, d]
+    const width = dimensions[0];
+    const height = dimensions[1];
+    const depth = dimensions[2];
+
+    const mainGeometry = new THREE.BoxGeometry(width, height, depth - (radius * 2));
+    const sideGeometry = new THREE.BoxGeometry(width - (radius * 2), height, radius);
+    const cornerGeometry = new THREE.CylinderGeometry(radius, radius, height, 24, 1, false, 0, Math.PI / 2);
+
     const sideMaterial = new THREE.MeshStandardMaterial({map: shelfSide});
     const edgeMaterial = new THREE.MeshStandardMaterial({map: shelfEdge});
-    const shelfSection = new THREE.Mesh(geometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
+
+    const cornerLB = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
+    cornerLB.position.set(-width / 2 + radius, 0, -depth / 2 + radius);
+    cornerLB.rotateY(-Math.PI);
+    const cornerRB = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
+    cornerRB.position.set(width / 2 - radius, 0, -depth / 2 + radius);
+    cornerRB.rotateY(Math.PI / 2);
+    const cornerLF = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
+    cornerLF.position.set(-width / 2 + radius, 0, depth / 2 - radius);
+    cornerLF.rotateY( -Math.PI / 2);
+    const cornerRF = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
+    cornerRF.position.set(width / 2 - radius, 0, depth / 2 - radius);
+
+    const sideSectionBack = new THREE.Mesh(sideGeometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
+    sideSectionBack.position.set(0, 0, -depth / 2 + radius / 2);
+    const sideSectionFront = new THREE.Mesh(sideGeometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
+    sideSectionFront.position.set(0, 0, depth / 2 - radius / 2);
+
+    const mainSection = new THREE.Mesh(mainGeometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
+
+    const shelfSection = new THREE.Group();
+    shelfSection.add(mainSection);
+    shelfSection.add(sideSectionFront);
+    shelfSection.add(sideSectionBack);
+    shelfSection.add(cornerLB);
+    shelfSection.add(cornerRB);
+    shelfSection.add(cornerLF);
+    shelfSection.add(cornerRF);
 
     if (isVertical) {
         shelfSection.rotateZ(Math.PI / 2);
@@ -68,10 +104,10 @@ export const Configurator = () => {
 
     const loadShelf = () => {
         const updatedShelfArr = [
-            addShelfSection(scene, [5, 0.1, 1], {}),
-            addShelfSection(scene, [5, 0.1, 1], {y: 1.8}),
-            addShelfSection(scene, [4, 0.1, 1], {x: -2.3}, true),
-            addShelfSection(scene, [4, 0.1, 1], {x: 2.3}, true),
+            addShelfSection(scene, [5, 0.1, 1], {}, edgeRadius),
+            addShelfSection(scene, [5, 0.1, 1], {y: 1.8}, edgeRadius),
+            addShelfSection(scene, [4, 0.1, 1], {x: -2.3}, edgeRadius, true),
+            addShelfSection(scene, [4, 0.1, 1], {x: 2.3}, edgeRadius, true),
         ];
         setShelfArr(updatedShelfArr);
     }
