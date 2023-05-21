@@ -91,7 +91,16 @@ export const Configurator = () => {
     const configuratorRef = useRef(null);
 
     camera.position.z = 5;
+    camera.position.x = 3;
+    camera.position.y = 3;
+    camera.rotateX = -Math.PI / 8;
+    camera.rotateY = -Math.PI / 8;
     const controls = new OrbitControls(camera, renderer.domElement);
+    controls.dampingFactor = 0.1;
+    controls.maxAzimuthAngle = Math.PI * 1.1/ 2;
+    controls.minAzimuthAngle = -Math.PI * 1.1/ 2;
+    controls.maxPolarAngle = Math.PI / 2;
+    controls.minPolarAngle = -Math.PI * 5 / 8;
     controls.update();
     addLighting(scene, 0xFFFFFF, 1, {x: -3, y: 2, z: 4});
     addLighting(scene, 0xFFFFFF, 1, {x: 3, y: 2, z: -4});
