@@ -5,9 +5,9 @@ import "./style.scss"
 import {Button, Paper} from "@mui/material";
 import {Configurator} from "./Configurator/Configurator";
 import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
-import logo from '../assets/logos/Logo_Inchi_white_background.jpg';
 import {ConfiguratorProvider} from "../contexts/ConfiguratorContext";
 import {TopAppBar} from "./TopAppBar";
+import {ConfiguratorPanel} from "./Configurator/ConfiguratorPanel";
 
 export const Home = (props) => {
     const {content} = useContext(GeneralContext);
@@ -22,11 +22,13 @@ export const Home = (props) => {
         <BrowserRouter history={props.history}>
             <Routes>
                 <Route path={routes.CONFIGURATOR} element={
+                    <ConfiguratorProvider>
                         <Configurator/>
+                        <ConfiguratorPanel/>
+                    </ConfiguratorProvider>
                 }/>
                 <Route path={routes.NOT_FOUND} element={<div>{content.NOT_FOUND}</div>}/>
                 <Route path={routes.ROOT} element={<div className='landing-page'>
-                    <img src={logo} alt='INCHI logo' className='logo'/>
                     {content.WELCOME_TO_INCHI}
                     <Link to={routes.CONFIGURATOR}>
                         <Button
@@ -43,10 +45,12 @@ export const Home = (props) => {
     return (
         <div className={`main-container`}>
             <TopAppBar/>
-            <Paper className="selection-container">
-                <ConfiguratorProvider>
-                    {renderMain()}
-                </ConfiguratorProvider>
+            <Paper
+                className="selection-container"
+                elevation={0}
+                square
+            >
+                {renderMain()}
             </Paper>
         </div>
     )

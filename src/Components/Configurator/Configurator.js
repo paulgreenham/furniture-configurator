@@ -1,11 +1,15 @@
 import React, {useEffect, useRef, useContext} from 'react';
 import "../style.scss"
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
+import {isMobile} from "react-device-detect";
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
+
+const appBarHeight = 100;
+const positionOffSet = isMobile ? 0 : 480;
 
 const addShelfSection = (scene, dimensions, position, radius, isVertical = false) => {
     const textureLoader = new THREE.TextureLoader();
@@ -84,7 +88,7 @@ export const Configurator = () => {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 100);
     const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setClearColor( 0x000000, 0);
-    renderer.setSize(window.innerWidth / 1.618, window.innerHeight / 1.25);
+    renderer.setSize(window.innerWidth - positionOffSet - 40, window.innerHeight - appBarHeight - 40);
     const configuratorRef = useRef(null);
 
     camera.position.z = 5;
