@@ -1,13 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useContext} from 'react';
 import "../style.scss"
 // import {GeneralContext} from "../../contexts/GeneralContext";
+import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
-
-const edgeRadius = 0.03;
 
 const addShelfSection = (scene, dimensions, position, radius, isVertical = false) => {
     const textureLoader = new THREE.TextureLoader();
@@ -81,7 +80,7 @@ const addLighting = (scene, color, intensity, position) => {
 
 export const Configurator = () => {
     // const {content} = useContext(GeneralContext);
-    const [shelfArr, setShelfArr] = useState([]);
+    const {edgeRadius, currentShelfArr} = useContext(ConfiguratorContext);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -111,27 +110,23 @@ export const Configurator = () => {
         renderer.render(scene, camera);
     }
 
-    const loadShelf = () => {
-        const updatedShelfArr = [
-            addShelfSection(scene, [5, 0.04, 1], {}, edgeRadius),
-            addShelfSection(scene, [5, 0.04, 1], {y: 1.92}, edgeRadius),
-            addShelfSection(scene, [4, 0.04, 1], {x: -2.42}, edgeRadius, true),
-            addShelfSection(scene, [4, 0.04, 1], {x: 2.42}, edgeRadius, true),
-        ];
-        setShelfArr(updatedShelfArr);
+    const loadUnit = () => {
+        currentShelfArr?.forEach(shelf => {
+            addShelfSection(scene, shelf.dimensions, shelf.position || {}, edgeRadius, !!shelf.isVertical);
+        });
     }
 
     useEffect(() => {
         if (WebGL.isWebGLAvailable()) {
-            configuratorRef.current.appendChild(renderer.domElement);
-            loadShelf();
+            configuratorRef.current.replaceChildren(renderer.domElement);
+            loadUnit();
             animate();
         } else {
             const warning = WebGL.getWebGLErrorMessage();
-            configuratorRef.current.appendChild(warning);
+            configuratorRef.current.replaceChildren(warning);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [currentShelfArr]);
 
     return (
         <div className={`configurator-container`} ref={configuratorRef}/>
