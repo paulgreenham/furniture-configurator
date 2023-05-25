@@ -20,10 +20,13 @@ const App = (props) => {
                 main: "#1F1F1F"
             },
             secondary: {
-                main: "#4B92FE"
+                main: "#FFFFFF"
+            },
+            tertiary: {
+                main: "#F3F3F3"
             },
             action: {
-                main: "#2F80ED"
+                main: "#F7BE78"
             },
             error: {
                 main: "#FF1F1F"

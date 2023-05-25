@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useContext} from 'react';
 import "../style.scss"
-// import {GeneralContext} from "../../contexts/GeneralContext";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
@@ -79,14 +78,13 @@ const addLighting = (scene, color, intensity, position) => {
 }
 
 export const Configurator = () => {
-    // const {content} = useContext(GeneralContext);
     const {edgeRadius, currentShelfArr} = useContext(ConfiguratorContext);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 100);
     const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setClearColor( 0x000000, 0);
-    renderer.setSize(window.innerWidth / 1.5, window.innerHeight / 1.5);
+    renderer.setSize(window.innerWidth / 1.618, window.innerHeight / 1.25);
     const configuratorRef = useRef(null);
 
     camera.position.z = 5;
@@ -129,6 +127,6 @@ export const Configurator = () => {
     }, [currentShelfArr]);
 
     return (
-        <div className={`configurator-container`} ref={configuratorRef}/>
+        <div className='configurator' ref={configuratorRef}/>
     )
 }

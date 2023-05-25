@@ -2,12 +2,12 @@ import React, {useContext, useEffect} from 'react';
 import {GeneralContext, routes} from "../contexts/GeneralContext";
 import {useForceUpdate} from "../Utility";
 import "./style.scss"
-import CssBaseline from '@mui/material/CssBaseline';
 import {Button, Paper} from "@mui/material";
 import {Configurator} from "./Configurator/Configurator";
 import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 import logo from '../assets/logos/Logo_Inchi_white_background.jpg';
 import {ConfiguratorProvider} from "../contexts/ConfiguratorContext";
+import {TopAppBar} from "./TopAppBar";
 
 export const Home = (props) => {
     const {content} = useContext(GeneralContext);
@@ -42,7 +42,7 @@ export const Home = (props) => {
 
     return (
         <div className={`main-container`}>
-            <CssBaseline/>
+            <TopAppBar/>
             <Paper className="selection-container">
                 <ConfiguratorProvider>
                     {renderMain()}
