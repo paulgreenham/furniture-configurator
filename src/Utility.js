@@ -154,6 +154,14 @@ export class Utility {
         }
     }
 
+    static getNewDimensionIncrement = (currentDimensionInInches, isAdd, allowedDimension) => {
+        let newDimension;
+        if (isAdd) {
+            newDimension = Math.min(currentDimensionInInches + 1, allowedDimension.max * 12);
+        } else newDimension = Math.max(currentDimensionInInches - 1, allowedDimension.min * 12);
+        return newDimension / 12;
+    }
+
     // static async httpCall(functionName, params) {
     //     try {
     //         const response = await func.httpsCallable(functionName)(params);

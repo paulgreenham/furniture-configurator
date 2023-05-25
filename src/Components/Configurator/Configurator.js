@@ -82,7 +82,11 @@ const addLighting = (scene, color, intensity, position) => {
 }
 
 export const Configurator = () => {
-    const {edgeRadius, currentShelfArr} = useContext(ConfiguratorContext);
+    const {
+        edgeRadius,
+        currentShelfArr,
+        addRemoveActive,
+    } = useContext(ConfiguratorContext);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 100);
@@ -131,6 +135,6 @@ export const Configurator = () => {
     }, [currentShelfArr]);
 
     return (
-        <div className='configurator' ref={configuratorRef}/>
+        <div className='configurator' ref={configuratorRef} style={{background: addRemoveActive ? "#F5F5F5" : "inherit"}}/>
     )
 }
