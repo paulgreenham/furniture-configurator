@@ -53,23 +53,23 @@ export const ConfiguratorProvider = props => {
     }
 
     const adjustWidth = newWidth => {
-        // const widthChange = newWidth - currentWidth;
+        const widthChange = newWidth - currentWidth;
 
-        // const updatedShelfArr = [...currentShelfArr];
-        //
-        // currentShelfArr.forEach((currentShelf, index) => {
-        //     const updatedShelf = {...currentShelf};
-        //     if (!currentShelf.isVertical) {
-        //         updatedShelf.dimensions[0] += widthChange;
-        //     } else {
-        //         const positionChange = (widthChange / 2) * (Math.sign(updatedShelf.position.x || 1));
-        //         updatedShelf.position.x += positionChange;
-        //     }
-        //     updatedShelfArr.push(updatedShelf);
-        // });
-        // //go through with width density to calculate needed vertical shelves to add
-        // console.log(updatedShelfArr);
-        // // setCurrentShelfArr(updatedShelfArr);
+        const updatedShelfArr = [];
+
+        currentShelfArr.forEach((currentShelf, index) => {
+            const updatedShelf = {...currentShelf};
+            if (!currentShelf.isVertical) {
+                updatedShelf.dimensions[0] += widthChange;
+            } else {
+                const positionChange = (widthChange / 2) * (Math.sign(updatedShelf.position.x || 1));
+                updatedShelf.position.x += positionChange;
+            }
+            updatedShelfArr.push(updatedShelf);
+        });
+        //go through with width density to calculate needed vertical shelves to add
+        console.log(updatedShelfArr);
+        setCurrentShelfArr(updatedShelfArr);
         setCurrentWidth(newWidth);
     }
 

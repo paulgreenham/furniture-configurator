@@ -35,7 +35,7 @@ const addShelfSection = (scene, dimensions, position, radius, isVertical = false
     cornerRB.rotateY(Math.PI / 2);
     const cornerLF = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
     cornerLF.position.set(-width / 2 + radius, 0, depth / 2 - radius);
-    cornerLF.rotateY( -Math.PI / 2);
+    cornerLF.rotateY(-Math.PI / 2);
     const cornerRF = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
     cornerRF.position.set(width / 2 - radius, 0, depth / 2 - radius);
 
@@ -71,7 +71,7 @@ const addShelfSection = (scene, dimensions, position, radius, isVertical = false
         shelfSection.position.z = z;
     }
 
-    return shelfSection;
+    return [mainSection, sideSectionFront, sideSectionBack, cornerLB, cornerRB, cornerLF, cornerRF];
 }
 
 const addLighting = (scene, color, intensity, position) => {
@@ -116,9 +116,11 @@ export const Configurator = () => {
         renderer.render(scene, camera);
     }
 
+    const totalMeshArr = [];
     const loadUnit = () => {
         currentShelfArr?.forEach(shelf => {
-            addShelfSection(scene, shelf.dimensions, shelf.position || {}, edgeRadius, !!shelf.isVertical);
+            const meshArr = addShelfSection(scene, shelf.dimensions, shelf.position || {}, edgeRadius, !!shelf.isVertical);
+            totalMeshArr.push(...meshArr);
         });
     }
 
@@ -131,6 +133,14 @@ export const Configurator = () => {
             const warning = WebGL.getWebGLErrorMessage();
             configuratorRef.current.replaceChildren(warning);
         }
+
+        return () => {
+            totalMeshArr.forEach(meshToBeCleared => {
+                meshToBeCleared.geometry.dispose();
+                // meshToBeCleared.material.dispose();
+            });
+        };
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentShelfArr]);
 
