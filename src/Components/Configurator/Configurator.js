@@ -1,84 +1,36 @@
 import React, {useEffect, useRef, useContext} from 'react';
 import "../style.scss"
+import {Canvas, extend} from "@react-three/fiber";
+import {useTexture, OrbitControls} from "@react-three/drei";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import {isMobile} from "react-device-detect";
-import * as THREE from 'three';
-import WebGL from 'three/addons/capabilities/WebGL.js';
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
 
 const appBarHeight = 100;
 const positionOffSet = isMobile ? 0 : 480;
 
-const addShelfSection = (scene, dimensions, position, radius, isVertical = false) => {
-    const textureLoader = new THREE.TextureLoader();
-    const shelfSide = textureLoader.load(birchSurface);
-    const shelfEdge = textureLoader.load(plywoodEdge);
+const ShelfMesh = props => {
+    const shelfSideMap = useTexture(birchSurface);
+    const shelfEdgeMap = useTexture(plywoodEdge);
 
-    const width = dimensions[0];
-    const height = dimensions[1];
-    const depth = dimensions[2];
+    const {position, rotation, dimensions} = props;
 
-    const mainGeometry = new THREE.BoxGeometry(width, height, depth - (radius * 2));
-    const sideGeometry = new THREE.BoxGeometry(width - (radius * 2), height, radius);
-    const cornerGeometry = new THREE.CylinderGeometry(radius, radius, height, 24, 1, false, 0, Math.PI / 2);
-
-    const sideMaterial = new THREE.MeshStandardMaterial({map: shelfSide});
-    const edgeMaterial = new THREE.MeshStandardMaterial({map: shelfEdge});
-
-    const cornerLB = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
-    cornerLB.position.set(-width / 2 + radius, 0, -depth / 2 + radius);
-    cornerLB.rotateY(-Math.PI);
-    const cornerRB = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
-    cornerRB.position.set(width / 2 - radius, 0, -depth / 2 + radius);
-    cornerRB.rotateY(Math.PI / 2);
-    const cornerLF = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
-    cornerLF.position.set(-width / 2 + radius, 0, depth / 2 - radius);
-    cornerLF.rotateY(-Math.PI / 2);
-    const cornerRF = new THREE.Mesh(cornerGeometry, [edgeMaterial, sideMaterial, sideMaterial]);
-    cornerRF.position.set(width / 2 - radius, 0, depth / 2 - radius);
-
-    const sideSectionBack = new THREE.Mesh(sideGeometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
-    sideSectionBack.position.set(0, 0, -depth / 2 + radius / 2);
-    const sideSectionFront = new THREE.Mesh(sideGeometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
-    sideSectionFront.position.set(0, 0, depth / 2 - radius / 2);
-
-    const mainSection = new THREE.Mesh(mainGeometry, [edgeMaterial, edgeMaterial, sideMaterial, sideMaterial, edgeMaterial, edgeMaterial]);
-
-    const shelfSection = new THREE.Group();
-    shelfSection.add(mainSection);
-    shelfSection.add(sideSectionFront);
-    shelfSection.add(sideSectionBack);
-    shelfSection.add(cornerLB);
-    shelfSection.add(cornerRB);
-    shelfSection.add(cornerLF);
-    shelfSection.add(cornerRF);
-
-    if (isVertical) {
-        shelfSection.rotateZ(Math.PI / 2);
-    }
-
-    scene.add(shelfSection);
-    const {x, y, z} = position;
-    if (!!x) {
-        shelfSection.position.x = x;
-    }
-    if (!!y) {
-        shelfSection.position.y = y;
-    }
-    if (!!z) {
-        shelfSection.position.z = z;
-    }
-
-    return [mainSection, sideSectionFront, sideSectionBack, cornerLB, cornerRB, cornerLF, cornerRF];
-}
-
-const addLighting = (scene, color, intensity, position) => {
-    const light = new THREE.DirectionalLight(color, intensity);
-    const {x, y, z} = position;
-    light.position.set(x, y, z);
-    scene.add(light);
+    return (
+        <mesh
+            visible
+            position={position}
+            rotation={rotation}
+        >
+            <boxGeometry attach="geometry" args={dimensions}/>
+            <meshStandardMaterial map={shelfEdgeMap} attach="material-0"/>
+            <meshStandardMaterial map={shelfEdgeMap} attach="material-1"/>
+            <meshStandardMaterial map={shelfSideMap} attach="material-2"/>
+            <meshStandardMaterial map={shelfSideMap} attach="material-3"/>
+            <meshStandardMaterial map={shelfEdgeMap} attach="material-4"/>
+            <meshStandardMaterial map={shelfEdgeMap} attach="material-5"/>
+        </mesh>
+    )
 }
 
 export const Configurator = () => {
@@ -88,63 +40,24 @@ export const Configurator = () => {
         addRemoveActive,
     } = useContext(ConfiguratorContext);
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 100);
-    const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
-    renderer.setClearColor( 0x000000, 0);
-    renderer.setSize(window.innerWidth - positionOffSet - 40, window.innerHeight - appBarHeight - 40);
-    const configuratorRef = useRef(null);
-
-    camera.position.z = 5;
-    camera.position.x = 3;
-    camera.position.y = 3;
-    camera.rotateX = -Math.PI / 8;
-    camera.rotateY = -Math.PI / 8;
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.dampingFactor = 0.1;
-    controls.maxAzimuthAngle = Math.PI * 1.1/ 2;
-    controls.minAzimuthAngle = -Math.PI * 1.1/ 2;
-    controls.maxPolarAngle = Math.PI / 2;
-    controls.minPolarAngle = -Math.PI * 5 / 8;
-    controls.update();
-    addLighting(scene, 0xFFFFFF, 1, {x: -3, y: 2, z: 4});
-    addLighting(scene, 0xFFFFFF, 1, {x: 3, y: 2, z: -4});
-
-    const animate = () => {
-        requestAnimationFrame(animate);
-        controls.update();
-        renderer.render(scene, camera);
-    }
-
-    const totalMeshArr = [];
-    const loadUnit = () => {
-        currentShelfArr?.forEach(shelf => {
-            const meshArr = addShelfSection(scene, shelf.dimensions, shelf.position || {}, edgeRadius, !!shelf.isVertical);
-            totalMeshArr.push(...meshArr);
-        });
-    }
-
-    useEffect(() => {
-        if (WebGL.isWebGLAvailable()) {
-            configuratorRef.current.replaceChildren(renderer.domElement);
-            loadUnit();
-            animate();
-        } else {
-            const warning = WebGL.getWebGLErrorMessage();
-            configuratorRef.current.replaceChildren(warning);
-        }
-
-        return () => {
-            totalMeshArr.forEach(meshToBeCleared => {
-                meshToBeCleared.geometry.dispose();
-                // meshToBeCleared.material.dispose();
-            });
-        };
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentShelfArr]);
-
     return (
-        <div className='configurator' ref={configuratorRef} style={{background: addRemoveActive ? "#F5F5F5" : "inherit"}}/>
+        <Canvas
+            className='configurator'
+            style={{background: addRemoveActive ? "#F5F5F5" : "inherit"}}
+            shadows='true'
+            camera={{position: [3, 3, 5]}}
+        >
+            <pointLight position={[10, 10, 10]}/>
+            <pointLight position={[-10, -10, -10]}/>
+            <ambientLight intensity={0.5}/>
+            <ShelfMesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} dimensions={[3, 0.04, 1]}/>
+            <OrbitControls
+                dampingFactor={0.1}
+                maxAzimuthAngle={Math.PI * 1.1/ 2}
+                minAzimuthAngle={-Math.PI * 1.1/ 2}
+                maxPolarAngle={Math.PI / 2}
+                minPolarAngle={-Math.PI * 5 / 8}
+            />
+        </Canvas>
     )
 }
