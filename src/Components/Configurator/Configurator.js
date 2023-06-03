@@ -1,14 +1,10 @@
 import React, {useContext} from 'react';
 import "../style.scss"
-import {Canvas, extend} from "@react-three/fiber";
+import {Canvas} from "@react-three/fiber";
 import {useTexture, OrbitControls} from "@react-three/drei";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
-import {isMobile} from "react-device-detect";
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
-
-const appBarHeight = 100;
-const positionOffSet = isMobile ? 0 : 480;
 
 const addMainSection = (width, height, depth, radius, shelfSideMap, shelfEdgeMap) =>
     <mesh visible position={[0, 0, 0]}>
@@ -50,7 +46,9 @@ const ShelfSection = props => {
 
     const width = dimensions[0] + overHang * 2;
     const height = dimensions[1];
-    const depth = dimensions[2];
+    const depth = dimensions[2] - (isVertical ? overHang : 0);
+
+    position[2] = position[2] - (isVertical ? overHang / 2 : 0);
 
     return (
         <group

@@ -20,7 +20,7 @@ export const AdjustWidth = () => {
     const content = language[appLang];
 
     const currentWidthInInches = currentWidth * 12;
-    const density= 3 / currentHorizontalGap;
+    const density= 7 - currentHorizontalGap * 2;
 
     const handleChangeWidth = (e, newWidth) => {
         adjustWidth(newWidth / 12);
@@ -31,7 +31,7 @@ export const AdjustWidth = () => {
     }
 
     const handleChangeDensity = (e, newDensity) => {
-        adjustHorizontalGap(3 - (newDensity / 2));
+        adjustHorizontalGap((7 - newDensity) / 2);
     }
 
     const handleManualDensityChange = isAdd => {
@@ -47,7 +47,7 @@ export const AdjustWidth = () => {
                     <RemoveIcon onClick={() => handleManualWidthChange(false)}/>
                     <Slider
                         aria-labelledby="width-input-slider"
-                        aria-label="Volume"
+                        aria-label="Width"
                         value={currentWidthInInches}
                         onChange={handleChangeWidth}
                         track={false}
@@ -65,16 +65,16 @@ export const AdjustWidth = () => {
                     <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
                     <Slider
                         aria-labelledby="horizontal-density-input-slider"
-                        aria-label="Volume"
+                        aria-label="Density"
                         value={density}
                         onChange={handleChangeDensity}
-                        track={true}
+                        track
                         min={1}
                         max={6}
                     />
                     <AddIcon onClick={() => handleManualDensityChange(true)}/>
                 </Stack>
-                <Typography id="width-input-slider" gutterBottom>
+                <Typography id="horizontal-density-input-slider" gutterBottom>
                     {content.DENSITY} {density}"
                 </Typography>
             </Box>

@@ -69,78 +69,61 @@ export const ConfiguratorProvider = props => {
             const updatedShelf = {...currentShelf};
             if (!currentShelf.isVertical) {
                 updatedShelf.dimensions[0] += widthChange;
-            } else {
-                const positionChange = (widthChange / 2) * (Math.sign(updatedShelf.position.x || 1));
-                updatedShelf.position.x += positionChange;
             }
             updatedShelfArr.push(updatedShelf);
         });
 
         setCurrentWidth(newWidth);
-        autoAddRemoveShelves(updatedShelfArr, newWidth, currentHeight, currentHorizontalGap, currentVerticalGap);
+        autoSetShelves(updatedShelfArr, newWidth, currentHeight, currentHorizontalGap, currentVerticalGap);
+    }
+
+    const adjustHeight = newHeight => {
+        const heightChange = newHeight - currentHeight;
+
+        const updatedShelfArr = [];
+
+        currentShelfArr.forEach(currentShelf => {
+            const updatedShelf = {...currentShelf};
+            if (!!currentShelf.isVertical) {
+                updatedShelf.dimensions[0] += heightChange;
+            }
+            updatedShelfArr.push(updatedShelf);
+        });
+
+        setCurrentHeight(newHeight);
+        autoSetShelves(updatedShelfArr, currentWidth, newHeight, currentHorizontalGap, currentVerticalGap);
     }
 
     const adjustHorizontalGap = newHorizontalGap => {
         setCurrentHorizontalGap(newHorizontalGap);
-        autoAddRemoveShelves(currentShelfArr, currentWidth, currentHeight, newHorizontalGap, currentVerticalGap);
+        autoSetShelves(currentShelfArr, currentWidth, currentHeight, newHorizontalGap, currentVerticalGap);
     }
 
-    const separateShelves = shelfArr => {
-        const verticalOuterShelves = [];
-        const verticalInnerShelves = [];
-        const horizontalOuterShelves = [];
-        const horizontalInnerShelves = [];
-
-        shelfArr.forEach(shelf => {
-            if (shelf.isVertical) {
-                if (shelf.isOuterBoard) {
-                    verticalOuterShelves.push(shelf);
-                } else verticalInnerShelves.push(shelf);
-            } else {
-                if (shelf.isOuterBoard) {
-                    horizontalOuterShelves.push(shelf);
-                } else horizontalInnerShelves.push(shelf);
-            }
-        });
-
-        return {
-            verticalOuterShelves,
-            verticalInnerShelves,
-            horizontalOuterShelves,
-            horizontalInnerShelves
-        }
+    const adjustVerticalGap = newVerticalGap => {
+        setCurrentVerticalGap(newVerticalGap);
+        autoSetShelves(currentShelfArr, currentWidth, currentHeight, currentHorizontalGap, newVerticalGap);
     }
 
-    const autoAddRemoveShelves = (shelfArr, width, height, horizontalGap, verticalGap) => {
-        const requiredInnerVerticals = Math.ceil(width / horizontalGap) - 1;
-        const requiredInnerHorizontals = Math.ceil(height / verticalGap) - 1;
-        const {
-            verticalOuterShelves,
-            verticalInnerShelves,
-            horizontalOuterShelves,
-            horizontalInnerShelves
-        } = separateShelves(shelfArr);
-        const updatedVerticalArr = [...verticalOuterShelves];
-        const updatedHorizontalArr = [...horizontalOuterShelves];
+    const autoSetShelves = (shelfArr, width, height, horizontalGap, verticalGap) => {
+        const requiredVerticals = Math.ceil(width / horizontalGap) + 1;
+        const requiredHorizontals = Math.ceil(height / verticalGap) + 1;
+        const updatedVerticalArr = [];
+        const updatedHorizontalArr = [];
 
-        if (requiredInnerVerticals !== verticalInnerShelves.length) {
-            for (let i = 0; i < requiredInnerVerticals; i++) {
-                updatedVerticalArr.push({
-                    dimensions: [height, boardThickness, currentDepth],
-                    position: {x: ((requiredInnerVerticals + 1) / width * i) - (width / 2)},
-                    isVertical: true
-                });
-            }
+        for (let i = 0; i < requiredVerticals; i++) {
+            updatedVerticalArr.push({
+                dimensions: [height, boardThickness, currentDepth],
+                position: {x: ((width / (requiredVerticals - 1) * i) - (boardThickness / 2)) - (width / 2)},
+                isVertical: true
+            });
         }
 
-        if (requiredInnerHorizontals !== horizontalInnerShelves.length) {
-            for (let i = 0; i < requiredInnerHorizontals; i++) {
-                updatedHorizontalArr.push({
-                    dimensions: [width, boardThickness, currentDepth],
-                    position: {y: ((requiredInnerHorizontals + 1) / height * i) - (height / 2)},
-                    isVertical: false
-                });
-            }
+        for (let i = 0; i < requiredHorizontals; i++) {
+            updatedHorizontalArr.push({
+                dimensions: [width, boardThickness, currentDepth],
+                position: {y: ((height / (requiredHorizontals - 1) * i) - (boardThickness / 2)) - (height / 2)},
+                isVertical: false
+            });
         }
 
         setCurrentShelfArr([...updatedVerticalArr, ...updatedHorizontalArr])
@@ -158,10 +141,13 @@ export const ConfiguratorProvider = props => {
             currentHeight,
             currentDepth,
             currentHorizontalGap,
+            currentVerticalGap,
             addRemoveActive,
             setAddRemoveActive,
             adjustWidth,
+            adjustHeight,
             adjustHorizontalGap,
+            adjustVerticalGap,
         }}>
             {props.children}
         </ConfiguratorContext.Provider>
