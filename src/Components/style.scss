@@ -71,6 +71,10 @@ $app-bar-height: 100px;
 
 .configurator {
     width: calc(100% - 480px) !important;
+
+    @media (max-width: 800px) {
+        width: 100% !important;
+    }
 }
 
 .configurator-panel {
@@ -82,10 +86,10 @@ $app-bar-height: 100px;
     background: $color-white;
 
     @media (max-width: 800px) {
-        position: inherit;
         right: unset;
         top: unset;
-        width: 100%;
+        bottom: 10px;
+        width: calc(100% - 40px);
         height: fit-content;
     }
 }
