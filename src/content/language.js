@@ -3,6 +3,7 @@ export const language = {
     english: {
         ABOUT: "about",
         CUSTOMIZE: "customize",
+        DENSITY: "Density",
         INSPIRE: "inspire",
         MY_ACCOUNT: "my account",
         NOT_FOUND: "Sorry, that page is unavailable.",

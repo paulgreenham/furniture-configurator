@@ -41,12 +41,14 @@ const addCornerSection = (position, rotateY, width, height, depth, radius, shelf
     </mesh>
 
 const ShelfSection = props => {
+    const {standardOverhang} = useContext(ConfiguratorContext);
+
     const shelfSideMap = useTexture(birchSurface);
     const shelfEdgeMap = useTexture(plywoodEdge);
 
-    const {dimensions, position, radius, isVertical = false} = props;
+    const {dimensions, position, radius, isVertical = false, overHang = standardOverhang} = props;
 
-    const width = dimensions[0];
+    const width = dimensions[0] + overHang * 2;
     const height = dimensions[1];
     const depth = dimensions[2];
 
