@@ -70,7 +70,7 @@ $app-bar-height: 100px;
 }
 
 .configurator {
-    width: 100%;
+    width: calc(100% - 480px) !important;
 }
 
 .configurator-panel {

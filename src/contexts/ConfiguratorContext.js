@@ -68,7 +68,6 @@ export const ConfiguratorProvider = props => {
             updatedShelfArr.push(updatedShelf);
         });
         //go through with width density to calculate needed vertical shelves to add
-        console.log(updatedShelfArr);
         setCurrentShelfArr(updatedShelfArr);
         setCurrentWidth(newWidth);
     }
