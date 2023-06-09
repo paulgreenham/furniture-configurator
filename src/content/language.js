@@ -4,6 +4,7 @@ export const language = {
         ABOUT: "about",
         CUSTOMIZE: "customize",
         DENSITY: "Density",
+        DEPTH: "Depth",
         HEIGHT: "Height",
         INSPIRE: "inspire",
         MY_ACCOUNT: "my account",

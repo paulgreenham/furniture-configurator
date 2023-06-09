@@ -51,8 +51,8 @@ export const AdjustWidth = () => {
                         value={currentWidthInInches}
                         onChange={handleChangeWidth}
                         track={false}
-                        min={12}
-                        max={12*(8 - (2 * standardOverhang))}
+                        min={allowedWidth.min * 12}
+                        max={allowedWidth.max * 12}
                     />
                     <AddIcon onClick={() => handleManualWidthChange(true)}/>
                 </Stack>

@@ -51,8 +51,8 @@ export const AdjustHeight = () => {
                         value={currentHeightInInches}
                         onChange={handleChangeHeight}
                         track={false}
-                        min={12}
-                        max={12*(8 - (2 * standardOverhang))}
+                        min={allowedHeight.min * 12}
+                        max={allowedHeight.max * 12}
                     />
                     <AddIcon onClick={() => handleManualHeightChange(true)}/>
                 </Stack>

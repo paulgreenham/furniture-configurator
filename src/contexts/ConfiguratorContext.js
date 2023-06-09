@@ -6,7 +6,7 @@ const boardThickness = (21 / 32) / 12;
 const standardOverhang = 1.5 / 12;
 const allowedWidth = {min: 1, max: 8 - (2 * standardOverhang)};
 const allowedHeight = {min: 2, max: 8 - (2 * standardOverhang)};
-const allowedDepth = {min: 1, max: 3};
+const allowedDepth = {min: 6 / 12 + standardOverhang, max: 21 / 12 - standardOverhang};
 
 const openingShelf = [
     {dimensions: [3, boardThickness, 1], position: {y: 2 - boardThickness / 2}, isVertical: false, isOuterBoard: true},
@@ -94,6 +94,21 @@ export const ConfiguratorProvider = props => {
         autoSetShelves(updatedShelfArr, currentWidth, newHeight, currentHorizontalGap, currentVerticalGap);
     }
 
+    const adjustDepth = newDepth => {
+        const depthChange = newDepth - currentDepth;
+
+        const updatedShelfArr = [];
+
+        currentShelfArr.forEach(currentShelf => {
+            const updatedShelf = {...currentShelf};
+                updatedShelf.dimensions[2] += depthChange;
+            updatedShelfArr.push(updatedShelf);
+        });
+
+        setCurrentDepth(newDepth);
+        setCurrentShelfArr(updatedShelfArr);
+    }
+
     const adjustHorizontalGap = newHorizontalGap => {
         setCurrentHorizontalGap(newHorizontalGap);
         autoSetShelves(currentShelfArr, currentWidth, currentHeight, newHorizontalGap, currentVerticalGap);
@@ -146,6 +161,7 @@ export const ConfiguratorProvider = props => {
             setAddRemoveActive,
             adjustWidth,
             adjustHeight,
+            adjustDepth,
             adjustHorizontalGap,
             adjustVerticalGap,
         }}>
