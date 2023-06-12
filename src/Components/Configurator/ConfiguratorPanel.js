@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import widthIcon from '../../assets/width_icon.png';
+import {ChangeWidthIcon} from "../../assets/svg-icons/ChangeWidthIcon";
 import HeightIcon from '@mui/icons-material/Height';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import ExposureOutlinedIcon from '@mui/icons-material/ExposureOutlined';
@@ -26,7 +27,8 @@ export const ConfiguratorPanel = () => {
                     className={`tab ${activeTab === 0 ? 'active' : ''}`}
                     onClick={() => handleTabClick(0)}
                 >
-                    <img alt='adjust width' src={widthIcon} style={{width: 24, height: 24}}/>
+                    <ChangeWidthIcon/>
+                    {/*<img alt='adjust width' src={widthIcon} style={{width: 24, height: 24}}/>*/}
                 </IconButton>
                 <IconButton
                     className={`tab ${activeTab === 1 ? 'active' : ''}`}

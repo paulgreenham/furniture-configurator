@@ -68,7 +68,7 @@ export const AdjustWidth = () => {
                         aria-label="Density"
                         value={density}
                         onChange={handleChangeDensity}
-                        track
+                        track={false}
                         min={1}
                         max={6}
                     />
