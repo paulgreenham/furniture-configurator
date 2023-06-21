@@ -75,7 +75,7 @@ export const AdjustWidth = () => {
                     <AddIcon onClick={() => handleManualDensityChange(true)}/>
                 </Stack>
                 <Typography id="horizontal-density-input-slider" gutterBottom>
-                    {content.DENSITY} {density}"
+                    {content.DENSITY} {density}
                 </Typography>
             </Box>
         </div>

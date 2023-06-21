@@ -75,7 +75,7 @@ export const AdjustHeight = () => {
                     <AddIcon onClick={() => handleManualDensityChange(true)}/>
                 </Stack>
                 <Typography id="vertical-density-input-slider" gutterBottom>
-                    {content.DENSITY} {density}"
+                    {content.DENSITY} {density}
                 </Typography>
             </Box>
         </div>
