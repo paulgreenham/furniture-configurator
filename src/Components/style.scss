@@ -1,10 +1,11 @@
 $color-primary: #1F1F1F;
 $color-secondary: #F3F3F3;
+$color-tertiary: #E3E0DB;
 $color-action: #F7BE78;
 $color-error: #FF1F1F;
 $color-white: #FFFFFF;
 $color-slate-grey: #444446;
-$color-grey: rgba(0, 0, 0, 0.12);
+$color-grey: #7F7F7F;
 $app-bar-height: 100px;
 
 .main-container {
@@ -70,7 +71,7 @@ $app-bar-height: 100px;
 }
 
 .configurator {
-    width: calc(100% - 480px) !important;
+    width: calc(100% - 380px) !important;
 
     @media (max-width: 800px) {
         width: 100% !important;
@@ -81,10 +82,14 @@ $app-bar-height: 100px;
 .configurator-panel {
     position: absolute;
     right: 60px;
-    top: calc($app-bar-height + 60px);
-    width: 400px;
-    height: calc(100vh - $app-bar-height - 120px);
+    top: calc($app-bar-height + 120px);
+    width: 300px;
+    height: calc(100vh - $app-bar-height - 240px);
     background: $color-white;
+    border: 2px solid $color-grey;
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     @media (max-width: 800px) {
         right: unset;
@@ -92,5 +97,47 @@ $app-bar-height: 100px;
         bottom: 10px;
         width: calc(100% - 40px);
         height: fit-content;
+    }
+
+    .tab-container {
+        position: absolute;
+        margin-top: -60px;
+        margin-left: -2px;
+        height: 60px;
+        width: calc(100% + 2px);
+        display: flex;
+        justify-content: space-between;
+        background: $color-secondary;
+    }
+
+    .tab-content {
+        padding: 30px;
+        width: calc(100% - 2 * 30px);
+        height: calc(100% - 2 * 30px);
+    }
+
+    .tab {
+        display: flex;
+        flex-grow: 0.25;
+        justify-content: center;
+        align-items: center;
+        background : $color-tertiary;
+        border: 2px solid $color-grey;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        margin-right: -2px;
+
+        &.active {
+            background: $color-white;
+            border-bottom-color: $color-white
+        }
+
+        //&.left {
+        //    border-bottom-left-radius: 10px;
+        //}
+        //
+        //&.right {
+        //    border-bottom-right-radius: 10px;
+        //}
     }
 }

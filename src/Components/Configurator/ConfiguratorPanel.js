@@ -21,30 +21,30 @@ export const ConfiguratorPanel = () => {
     return (
         <div className='configurator-panel'>
             <div className="tab-container">
-                <IconButton
-                    className={`tab ${activeTab === 0 ? 'active' : ''}`}
+                <div
+                    className={`tab left${activeTab === 0 ? ' active' : ''}`}
                     onClick={() => handleTabClick(0)}
                 >
-                    <HeightIcon style={{transform: 'rotate(90deg)'}}/>
-                </IconButton>
-                <IconButton
-                    className={`tab ${activeTab === 1 ? 'active' : ''}`}
+                    <HeightIcon style={{transform: 'rotate(90deg)'}} fontSize='large'/>
+                </div>
+                <div
+                    className={`tab${activeTab === 1 ? ' active' : ''}`}
                     onClick={() => handleTabClick(1)}
                 >
-                    <HeightIcon/>
-                </IconButton>
-                <IconButton
-                    className={`tab ${activeTab === 2 ? 'active' : ''}`}
+                    <HeightIcon fontSize='large'/>
+                </div>
+                <div
+                    className={`tab${activeTab === 2 ? ' active' : ''}`}
                     onClick={() => handleTabClick(2)}
                 >
-                    <OpenInFullIcon/>
-                </IconButton>
-                <IconButton
-                    className={`tab ${activeTab === 3 ? 'active' : ''}`}
+                    <HeightIcon style={{transform: 'rotate(-45deg)'}} fontSize='large'/>
+                </div>
+                <div
+                    className={`tab right${activeTab === 3 ? ' active' : ''}`}
                     onClick={() => handleTabClick(3)}
                 >
-                    <ExposureOutlinedIcon/>
-                </IconButton>
+                    <ExposureOutlinedIcon fontSize='large'/>
+                </div>
             </div>
             <div className="tab-content">
                 {activeTab === 0 && <AdjustWidth/>}
