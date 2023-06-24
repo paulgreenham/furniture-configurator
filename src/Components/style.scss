@@ -110,18 +110,12 @@ $app-bar-height: 100px;
         background: $color-secondary;
     }
 
-    .tab-content {
-        padding: 30px;
-        width: calc(100% - 2 * 30px);
-        height: calc(100% - 2 * 30px);
-    }
-
     .tab {
         display: flex;
         flex-grow: 0.25;
         justify-content: center;
         align-items: center;
-        background : $color-tertiary;
+        background: $color-tertiary;
         border: 2px solid $color-grey;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
@@ -139,5 +133,44 @@ $app-bar-height: 100px;
         //&.right {
         //    border-bottom-right-radius: 10px;
         //}
+    }
+
+    .tab-content {
+        padding: 30px;
+        width: calc(100% - 2 * 30px);
+        height: calc(100% - 2 * 30px);
+    }
+}
+
+.slider-container {
+    margin: 20px 0 50px;
+
+    .MuiSlider-thumb {
+        background: $color-white;
+        border: 3px solid $color-primary;
+
+        &:focus, &:hover, &.Mui-active, &.Mui-focusVisible {
+            box-shadow: 0 3px 1px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,0,0,0.02);
+
+            @media (hover: none) {
+                box-shadow: none;
+            }
+        }
+    }
+
+    .MuiSlider-rail {
+        opacity: 1;
+        background: $color-primary;
+        height: 2.5px;
+        border: none;
+    }
+
+    .MuiSvgIcon-root {
+        font-size: 27px;
+
+        &:hover {
+            background: $color-tertiary;
+            border-radius: 50%;
+        }
     }
 }

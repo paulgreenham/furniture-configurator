@@ -42,12 +42,12 @@ export const AdjustHeight = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            <Box sx={{ width: 200 }}>
+            <Box className='slider-container'>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <RemoveIcon onClick={() => handleManualHeightChange(false)}/>
                     <Slider
                         aria-labelledby="height-input-slider"
-                        aria-label="Height"
+                        aria-label={content.HEIGHT}
                         value={currentHeightInInches}
                         onChange={handleChangeHeight}
                         track={false}
@@ -56,16 +56,16 @@ export const AdjustHeight = () => {
                     />
                     <AddIcon onClick={() => handleManualHeightChange(true)}/>
                 </Stack>
-                <Typography id="height-input-slider" gutterBottom>
+                <Typography align='center' id="height-input-slider" gutterBottom>
                     {content.HEIGHT} {currentHeightInInches}"
                 </Typography>
             </Box>
-            <Box sx={{ width: 200 }}>
+            <Box className='slider-container'>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
                     <Slider
                         aria-labelledby="vertical-density-input-slider"
-                        aria-label="Density"
+                        aria-label={content.DENSITY}
                         value={density}
                         onChange={handleChangeDensity}
                         track={false}
@@ -74,8 +74,8 @@ export const AdjustHeight = () => {
                     />
                     <AddIcon onClick={() => handleManualDensityChange(true)}/>
                 </Stack>
-                <Typography id="vertical-density-input-slider" gutterBottom>
-                    {content.DENSITY} {density}
+                <Typography align='center' id="vertical-density-input-slider" gutterBottom>
+                    {content.DENSITY}: {currentVerticalGap * 12}" {content.MAX_GAP}
                 </Typography>
             </Box>
         </div>

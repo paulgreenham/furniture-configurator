@@ -29,12 +29,12 @@ export const AdjustDepth = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            <Box sx={{ width: 200 }}>
+            <Box className='slider-container'>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <RemoveIcon onClick={() => handleManualDepthChange(false)}/>
                     <Slider
                         aria-labelledby="height-input-slider"
-                        aria-label="Height"
+                        aria-label={content.DEPTH}
                         value={currentDepthInInches}
                         onChange={handleChangeDepth}
                         track={false}
@@ -43,7 +43,7 @@ export const AdjustDepth = () => {
                     />
                     <AddIcon onClick={() => handleManualDepthChange(true)}/>
                 </Stack>
-                <Typography id="height-input-slider" gutterBottom>
+                <Typography align='center' id="height-input-slider" gutterBottom>
                     {content.DEPTH} {currentDepthInInches}"
                 </Typography>
             </Box>

@@ -42,12 +42,12 @@ export const AdjustWidth = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            <Box sx={{ width: 200 }}>
+            <Box className='slider-container'>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <RemoveIcon onClick={() => handleManualWidthChange(false)}/>
                     <Slider
                         aria-labelledby="width-input-slider"
-                        aria-label="Width"
+                        aria-label={content.WIDTH}
                         value={currentWidthInInches}
                         onChange={handleChangeWidth}
                         track={false}
@@ -56,16 +56,16 @@ export const AdjustWidth = () => {
                     />
                     <AddIcon onClick={() => handleManualWidthChange(true)}/>
                 </Stack>
-                <Typography id="width-input-slider" gutterBottom>
+                <Typography align='center' id="width-input-slider" gutterBottom>
                     {content.WIDTH} {currentWidthInInches}"
                 </Typography>
             </Box>
-            <Box sx={{ width: 200 }}>
+            <Box className='slider-container'>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
                     <Slider
                         aria-labelledby="horizontal-density-input-slider"
-                        aria-label="Density"
+                        aria-label={content.DENSITY}
                         value={density}
                         onChange={handleChangeDensity}
                         track={false}
@@ -74,8 +74,8 @@ export const AdjustWidth = () => {
                     />
                     <AddIcon onClick={() => handleManualDensityChange(true)}/>
                 </Stack>
-                <Typography id="horizontal-density-input-slider" gutterBottom>
-                    {content.DENSITY} {density}
+                <Typography align='center' id="horizontal-density-input-slider" gutterBottom>
+                    {content.DENSITY}: {currentHorizontalGap * 12}" {content.MAX_GAP}
                 </Typography>
             </Box>
         </div>

@@ -7,6 +7,7 @@ export const language = {
         DEPTH: "Depth",
         HEIGHT: "Height",
         INSPIRE: "inspire",
+        MAX_GAP: "max gap",
         MY_ACCOUNT: "my account",
         NOT_FOUND: "Sorry, that page is unavailable.",
         TRY_OUR_CONFIGURATOR: "Try our configurator",
