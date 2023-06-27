@@ -3,15 +3,19 @@ import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import HeightIcon from '@mui/icons-material/Height';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import ExposureOutlinedIcon from '@mui/icons-material/ExposureOutlined';
-import {IconButton} from "@mui/material";
+import {IconButton, FormControl, FormControlLabel, RadioGroup, Radio} from "@mui/material";
 import {AdjustWidth} from "./AdjustWidth";
 import {AdjustHeight} from "./AdjustHeight";
 import {AdjustDepth} from "./AdjustDepth";
 import {AddRemoveSections} from "./AddRemoveSections";
+import {GeneralContext} from "../../contexts/GeneralContext";
+import {language} from "../../content/language";
 
 export const ConfiguratorPanel = () => {
+    const {appLang} = useContext(GeneralContext);
     const {setAddRemoveActive} = useContext(ConfiguratorContext);
     const [activeTab, setActiveTab] = useState(0);
+    const content = language[appLang];
 
     const handleTabClick = (tabIndex) => {
         setActiveTab(tabIndex);
@@ -51,6 +55,45 @@ export const ConfiguratorPanel = () => {
                 {activeTab === 1 && <AdjustHeight/>}
                 {activeTab === 2 && <AdjustDepth/>}
                 {activeTab === 3 && <AddRemoveSections/>}
+
+                <FormControl>
+                    <RadioGroup
+                        row
+                        className="color-selection-container"
+                    >
+                        <FormControlLabel
+                            value="#E3E0DB"
+                            control={<Radio />}
+                            label={content.RAW}
+                            labelPlacement="bottom"
+                        />
+                        <FormControlLabel
+                            value="#E3E0DB"
+                            control={<Radio />}
+                            label={content.DARK}
+                            labelPlacement="bottom"
+                        />
+                        <FormControlLabel
+                            value="#E3E0DB"
+                            control={<Radio />}
+                            label={content.LIGHT}
+                            labelPlacement="bottom"
+                        />
+                        <FormControlLabel
+                            value="#E3E0DB"
+                            control={<Radio />}
+                            label={content.BLUE}
+                            labelPlacement="bottom"
+                        />
+                        <FormControlLabel
+                            value="#E3E0DB"
+                            control={<Radio />}
+                            label={content.RED}
+                            labelPlacement="bottom"
+                        />
+                    </RadioGroup>
+                </FormControl>
+
             </div>
         </div>
     );
