@@ -11,9 +11,15 @@ import {AddRemoveSections} from "./AddRemoveSections";
 import {GeneralContext} from "../../contexts/GeneralContext";
 import {language} from "../../content/language";
 
+const raw = "";
+const light = "#F7BE78";
+const dark = "#7A5C39";
+const darkBlue = "#00008B";
+const red = "#FF1F1F";
+
 export const ConfiguratorPanel = () => {
     const {appLang} = useContext(GeneralContext);
-    const {setAddRemoveActive} = useContext(ConfiguratorContext);
+    const {setAddRemoveActive, selectedColor, setSelectedColor} = useContext(ConfiguratorContext);
     const [activeTab, setActiveTab] = useState(0);
     const content = language[appLang];
 
@@ -56,38 +62,40 @@ export const ConfiguratorPanel = () => {
                 {activeTab === 2 && <AdjustDepth/>}
                 {activeTab === 3 && <AddRemoveSections/>}
 
-                <FormControl>
+                <FormControl className="color-selection-container">
                     <RadioGroup
                         row
-                        className="color-selection-container"
+                        className="color-selection"
+                        value={selectedColor}
+                        onChange={(e) => setSelectedColor(e.target.value)}
                     >
                         <FormControlLabel
-                            value="#E3E0DB"
-                            control={<Radio />}
+                            value={raw}
+                            control={<Radio className="raw"/>}
                             label={content.RAW}
                             labelPlacement="bottom"
                         />
                         <FormControlLabel
-                            value="#E3E0DB"
-                            control={<Radio />}
+                            value={dark}
+                            control={<Radio className="dark"/>}
                             label={content.DARK}
                             labelPlacement="bottom"
                         />
                         <FormControlLabel
-                            value="#E3E0DB"
-                            control={<Radio />}
+                            value={light}
+                            control={<Radio className="light"/>}
                             label={content.LIGHT}
                             labelPlacement="bottom"
                         />
                         <FormControlLabel
-                            value="#E3E0DB"
-                            control={<Radio />}
+                            value={darkBlue}
+                            control={<Radio className="blue" />}
                             label={content.BLUE}
                             labelPlacement="bottom"
                         />
                         <FormControlLabel
-                            value="#E3E0DB"
-                            control={<Radio />}
+                            value={red}
+                            control={<Radio className="red" />}
                             label={content.RED}
                             labelPlacement="bottom"
                         />

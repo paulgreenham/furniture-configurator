@@ -7,6 +7,8 @@ $color-white: #FFFFFF;
 $color-slate-grey: #444446;
 $color-grey: #7F7F7F;
 $app-bar-height: 100px;
+$color-brown: #7A5C39;
+$color-blue: #00008B;
 
 .main-container {
     height: 100%;
@@ -171,6 +173,35 @@ $app-bar-height: 100px;
         &:hover {
             background: $color-tertiary;
             border-radius: 50%;
+        }
+    }
+}
+
+.color-selection-container {
+    width: 100%;
+
+    .color-selection {
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+
+        .MuiFormControlLabel-root {
+            margin: 0;
+        }
+
+        .MuiRadio-root {
+            &.dark {
+                color: $color-brown;
+            }
+            &.light {
+                color: $color-action;
+            }
+            &.blue {
+                color: $color-blue;
+            }
+            &.red {
+                color: $color-error;
+            }
         }
     }
 }
