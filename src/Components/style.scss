@@ -9,6 +9,7 @@ $color-grey: #7F7F7F;
 $app-bar-height: 100px;
 $color-brown: #7A5C39;
 $color-blue: #00008B;
+$color-red: #8B0000;
 
 .main-container {
     height: 100%;
@@ -86,7 +87,7 @@ $color-blue: #00008B;
     right: 60px;
     top: calc($app-bar-height + 120px);
     width: 300px;
-    height: calc(100vh - $app-bar-height - 240px);
+    height: 400px;
     background: $color-white;
     border: 2px solid $color-grey;
     border-top: none;
@@ -138,6 +139,9 @@ $color-blue: #00008B;
     }
 
     .tab-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         padding: 30px;
         width: calc(100% - 2 * 30px);
         height: calc(100% - 2 * 30px);
@@ -200,7 +204,7 @@ $color-blue: #00008B;
                 color: $color-blue;
             }
             &.red {
-                color: $color-error;
+                color: $color-red;
             }
         }
     }
