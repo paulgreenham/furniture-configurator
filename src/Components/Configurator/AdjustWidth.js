@@ -16,7 +16,6 @@ export const AdjustWidth = () => {
         allowedWidth,
         currentHorizontalGap,
         adjustHorizontalGap,
-        standardOverhang,
     } = useContext(ConfiguratorContext);
 
     const [display, setDisplay] = useState("width");

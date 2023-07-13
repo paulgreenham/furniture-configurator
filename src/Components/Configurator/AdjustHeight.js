@@ -16,7 +16,6 @@ export const AdjustHeight = () => {
         allowedHeight,
         currentVerticalGap,
         adjustVerticalGap,
-        standardOverhang,
     } = useContext(ConfiguratorContext);
     const content = language[appLang];
 

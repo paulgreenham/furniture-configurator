@@ -13,7 +13,6 @@ export const AdjustDepth = () => {
         currentDepth,
         adjustDepth,
         allowedDepth,
-        standardOverhang,
     } = useContext(ConfiguratorContext);
     const content = language[appLang];
 

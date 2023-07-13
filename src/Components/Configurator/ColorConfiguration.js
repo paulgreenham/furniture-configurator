@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {FormControl, FormControlLabel, RadioGroup, Radio} from "@mui/material";
 import {GeneralContext} from "../../contexts/GeneralContext";
 import {language} from "../../content/language";
