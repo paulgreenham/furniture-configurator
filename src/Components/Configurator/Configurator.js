@@ -5,6 +5,7 @@ import {useTexture, OrbitControls} from "@react-three/drei";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
+import {isMobile} from "react-device-detect";
 
 const addMainSection = (width, height, depth, radius, shelfSideMap, shelfEdgeMap, color) =>
     !!color
@@ -107,7 +108,7 @@ export const Configurator = () => {
     return (
         <Canvas
             frameloop='demand'
-            className='configurator'
+            className={`configurator${isMobile ? " is-mobile" : ""}`}
             style={{background: addRemoveActive ? "#F5F5F5" : "inherit"}}
             shadows='true'
             camera={{position: [3, 3, 5], rotation: [-Math.PI / 8, -Math.PI / 8, 0]}}

@@ -8,6 +8,8 @@ import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 import {ConfiguratorProvider} from "../contexts/ConfiguratorContext";
 import {TopAppBar} from "./TopAppBar";
 import {ConfiguratorPanel} from "./Configurator/ConfiguratorPanel";
+import {isMobile} from "react-device-detect";
+import ColorConfiguration from "./Configurator/ColorConfiguration";
 
 export const Home = (props) => {
     const {content} = useContext(GeneralContext);
@@ -25,6 +27,10 @@ export const Home = (props) => {
                     <ConfiguratorProvider>
                         <Configurator/>
                         <ConfiguratorPanel/>
+                        {isMobile
+                            ? <ColorConfiguration/>
+                            : null
+                        }
                     </ConfiguratorProvider>
                 }/>
                 <Route path={routes.NOT_FOUND} element={<div>{content.NOT_FOUND}</div>}/>

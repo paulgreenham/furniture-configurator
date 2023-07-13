@@ -29,7 +29,7 @@ export const AdjustDepth = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            <Box className='slider-container'>
+            <Box className='slider-container depth'>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <RemoveIcon onClick={() => handleManualDepthChange(false)}/>
                     <Slider

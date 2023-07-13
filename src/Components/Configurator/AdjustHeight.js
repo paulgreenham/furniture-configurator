@@ -1,11 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {language} from '../../content/language';
 import {GeneralContext} from "../../contexts/GeneralContext";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import {Utility} from "../../Utility";
-import {Box, Slider, Stack, Typography} from "@mui/material";
+import {Box, Slider, Stack, Typography, ToggleButtonGroup, ToggleButton} from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import {isMobile} from "react-device-detect";
 
 export const AdjustHeight = () => {
     const {appLang} = useContext(GeneralContext);
@@ -19,6 +20,7 @@ export const AdjustHeight = () => {
     } = useContext(ConfiguratorContext);
     const content = language[appLang];
 
+    const [display, setDisplay] = useState("height");
     const currentHeightInInches = currentHeight * 12;
     const density= 7 - currentVerticalGap * 2;
 
@@ -42,42 +44,66 @@ export const AdjustHeight = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            <Box className='slider-container'>
-                <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                    <RemoveIcon onClick={() => handleManualHeightChange(false)}/>
-                    <Slider
-                        aria-labelledby="height-input-slider"
-                        aria-label={content.HEIGHT}
-                        value={currentHeightInInches}
-                        onChange={handleChangeHeight}
-                        track={false}
-                        min={allowedHeight.min * 12}
-                        max={allowedHeight.max * 12}
-                    />
-                    <AddIcon onClick={() => handleManualHeightChange(true)}/>
-                </Stack>
-                <Typography align='center' id="height-input-slider" gutterBottom>
-                    {content.HEIGHT} {currentHeightInInches}"
-                </Typography>
-            </Box>
-            <Box className='slider-container'>
-                <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                    <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
-                    <Slider
-                        aria-labelledby="vertical-density-input-slider"
-                        aria-label={content.DENSITY}
-                        value={density}
-                        onChange={handleChangeDensity}
-                        track={false}
-                        min={1}
-                        max={6}
-                    />
-                    <AddIcon onClick={() => handleManualDensityChange(true)}/>
-                </Stack>
-                <Typography align='center' id="vertical-density-input-slider" gutterBottom>
-                    {content.DENSITY}: {currentVerticalGap * 12}" {content.MAX_GAP}
-                </Typography>
-            </Box>
+            {isMobile
+                ? <ToggleButtonGroup
+                    className='toggle-button-group'
+                    value={display}
+                    exclusive
+                    orientation="vertical"
+                    onChange={(e, newDisplay) => setDisplay(newDisplay)}
+                    aria-label="show width or density"
+                >
+                    <ToggleButton value="height" aria-label="show height">
+                        {content.HEIGHT}
+                    </ToggleButton>
+                    <ToggleButton value="density" aria-label="show density">
+                        {content.DENSITY}
+                    </ToggleButton>
+                </ToggleButtonGroup>
+                : null
+            }
+            {(isMobile && display === "height") || !isMobile
+                ? <Box className='slider-container'>
+                    <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                        <RemoveIcon onClick={() => handleManualHeightChange(false)}/>
+                        <Slider
+                            aria-labelledby="height-input-slider"
+                            aria-label={content.HEIGHT}
+                            value={currentHeightInInches}
+                            onChange={handleChangeHeight}
+                            track={false}
+                            min={allowedHeight.min * 12}
+                            max={allowedHeight.max * 12}
+                        />
+                        <AddIcon onClick={() => handleManualHeightChange(true)}/>
+                    </Stack>
+                    <Typography align='center' id="height-input-slider" gutterBottom>
+                        {content.HEIGHT} {currentHeightInInches}"
+                    </Typography>
+                </Box>
+                : null
+            }
+            {(isMobile && display === "density") || !isMobile
+                ? <Box className='slider-container'>
+                    <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                        <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
+                        <Slider
+                            aria-labelledby="vertical-density-input-slider"
+                            aria-label={content.DENSITY}
+                            value={density}
+                            onChange={handleChangeDensity}
+                            track={false}
+                            min={1}
+                            max={6}
+                        />
+                        <AddIcon onClick={() => handleManualDensityChange(true)}/>
+                    </Stack>
+                    <Typography align='center' id="vertical-density-input-slider" gutterBottom>
+                        {content.DENSITY}: {currentVerticalGap * 12}" {content.MAX_GAP}
+                    </Typography>
+                </Box>
+                : null
+            }
         </div>
     );
 }

@@ -1,11 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {language} from '../../content/language';
 import {GeneralContext} from "../../contexts/GeneralContext";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
-import {Box, Stack, Slider, Typography} from "@mui/material";
+import {Box, Stack, Slider, Typography, ToggleButtonGroup, ToggleButton} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {Utility} from "../../Utility";
+import {isMobile} from "react-device-detect";
 
 export const AdjustWidth = () => {
     const {appLang} = useContext(GeneralContext);
@@ -17,10 +18,12 @@ export const AdjustWidth = () => {
         adjustHorizontalGap,
         standardOverhang,
     } = useContext(ConfiguratorContext);
+
+    const [display, setDisplay] = useState("width");
     const content = language[appLang];
 
     const currentWidthInInches = currentWidth * 12;
-    const density= 7 - currentHorizontalGap * 2;
+    const density = 7 - currentHorizontalGap * 2;
 
     const handleChangeWidth = (e, newWidth) => {
         adjustWidth(newWidth / 12);
@@ -42,42 +45,66 @@ export const AdjustWidth = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            <Box className='slider-container'>
-                <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                    <RemoveIcon onClick={() => handleManualWidthChange(false)}/>
-                    <Slider
-                        aria-labelledby="width-input-slider"
-                        aria-label={content.WIDTH}
-                        value={currentWidthInInches}
-                        onChange={handleChangeWidth}
-                        track={false}
-                        min={allowedWidth.min * 12}
-                        max={allowedWidth.max * 12}
-                    />
-                    <AddIcon onClick={() => handleManualWidthChange(true)}/>
-                </Stack>
-                <Typography align='center' id="width-input-slider" gutterBottom>
-                    {content.WIDTH} {currentWidthInInches}"
-                </Typography>
-            </Box>
-            <Box className='slider-container'>
-                <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                    <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
-                    <Slider
-                        aria-labelledby="horizontal-density-input-slider"
-                        aria-label={content.DENSITY}
-                        value={density}
-                        onChange={handleChangeDensity}
-                        track={false}
-                        min={1}
-                        max={6}
-                    />
-                    <AddIcon onClick={() => handleManualDensityChange(true)}/>
-                </Stack>
-                <Typography align='center' id="horizontal-density-input-slider" gutterBottom>
-                    {content.DENSITY}: {currentHorizontalGap * 12}" {content.MAX_GAP}
-                </Typography>
-            </Box>
+            {isMobile
+                ? <ToggleButtonGroup
+                    className='toggle-button-group'
+                    value={display}
+                    exclusive
+                    orientation="vertical"
+                    onChange={(e, newDisplay) => setDisplay(newDisplay)}
+                    aria-label="show width or density"
+                >
+                    <ToggleButton value="width" aria-label="show width">
+                        {content.WIDTH}
+                    </ToggleButton>
+                    <ToggleButton value="density" aria-label="show density">
+                        {content.DENSITY}
+                    </ToggleButton>
+                </ToggleButtonGroup>
+                : null
+            }
+            {(isMobile && display === "width") || !isMobile
+                ? <Box className='slider-container'>
+                    <Stack spacing={2} direction="row" sx={{mb: 1}} alignItems="center">
+                        <RemoveIcon onClick={() => handleManualWidthChange(false)}/>
+                        <Slider
+                            aria-labelledby="width-input-slider"
+                            aria-label={content.WIDTH}
+                            value={currentWidthInInches}
+                            onChange={handleChangeWidth}
+                            track={false}
+                            min={allowedWidth.min * 12}
+                            max={allowedWidth.max * 12}
+                        />
+                        <AddIcon onClick={() => handleManualWidthChange(true)}/>
+                    </Stack>
+                    <Typography align='center' id="width-input-slider" gutterBottom>
+                        {content.WIDTH} {currentWidthInInches}"
+                    </Typography>
+                </Box>
+                : null
+            }
+            {(isMobile && display === "density") || !isMobile
+                ? <Box className='slider-container'>
+                    <Stack spacing={2} direction="row" sx={{mb: 1}} alignItems="center">
+                        <RemoveIcon onClick={() => handleManualDensityChange(false)}/>
+                        <Slider
+                            aria-labelledby="horizontal-density-input-slider"
+                            aria-label={content.DENSITY}
+                            value={density}
+                            onChange={handleChangeDensity}
+                            track={false}
+                            min={1}
+                            max={6}
+                        />
+                        <AddIcon onClick={() => handleManualDensityChange(true)}/>
+                    </Stack>
+                    <Typography align='center' id="horizontal-density-input-slider" gutterBottom>
+                        {content.DENSITY}: {currentHorizontalGap * 12}" {content.MAX_GAP}
+                    </Typography>
+                </Box>
+                : null
+            }
         </div>
     );
 }

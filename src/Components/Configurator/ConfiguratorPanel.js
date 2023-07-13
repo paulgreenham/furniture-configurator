@@ -1,28 +1,17 @@
 import React, {useContext, useState} from 'react';
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import HeightIcon from '@mui/icons-material/Height';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import CircleIcon from '@mui/icons-material/Circle';
 import ExposureOutlinedIcon from '@mui/icons-material/ExposureOutlined';
-import {IconButton, FormControl, FormControlLabel, RadioGroup, Radio} from "@mui/material";
 import {AdjustWidth} from "./AdjustWidth";
 import {AdjustHeight} from "./AdjustHeight";
 import {AdjustDepth} from "./AdjustDepth";
 import {AddRemoveSections} from "./AddRemoveSections";
-import {GeneralContext} from "../../contexts/GeneralContext";
-import {language} from "../../content/language";
-
-const raw = "";
-const light = "#F7BE78";
-const dark = "#7A5C39";
-const darkBlue = "#00008B";
-const red = "#8B0000";
+import ColorConfiguration from "./ColorConfiguration";
+import {isMobile} from "react-device-detect";
 
 export const ConfiguratorPanel = () => {
-    const {appLang} = useContext(GeneralContext);
-    const {setAddRemoveActive, selectedColor, setSelectedColor} = useContext(ConfiguratorContext);
+    const {setAddRemoveActive} = useContext(ConfiguratorContext);
     const [activeTab, setActiveTab] = useState(0);
-    const content = language[appLang];
 
     const handleTabClick = (tabIndex) => {
         setActiveTab(tabIndex);
@@ -30,7 +19,7 @@ export const ConfiguratorPanel = () => {
     };
 
     return (
-        <div className='configurator-panel'>
+        <div className={`configurator-panel${isMobile ? ' is-mobile' : ''}`}>
             <div className="tab-container">
                 <div
                     className={`tab left${activeTab === 0 ? ' active' : ''}`}
@@ -62,50 +51,10 @@ export const ConfiguratorPanel = () => {
                 {activeTab === 1 && <AdjustHeight/>}
                 {activeTab === 2 && <AdjustDepth/>}
                 {activeTab === 3 && <AddRemoveSections/>}
-
-                <FormControl className="color-selection-container">
-                    <RadioGroup
-                        row
-                        className="color-selection"
-                        value={selectedColor}
-                        onChange={(e) => setSelectedColor(e.target.value)}
-                    >
-                        <FormControlLabel
-                            value={raw}
-                            control={<Radio className="raw"/>}
-                            label={content.RAW}
-                            labelPlacement="bottom"
-                        />
-                        <FormControlLabel
-                            value={dark}
-                            control={<Radio className="dark" icon={<CircleIcon/>}/>}
-                            label={content.DARK}
-                            labelPlacement="bottom"
-                        />
-                        <FormControlLabel
-                            value={light}
-                            control={<Radio className="light" icon={<CircleIcon/>}/>}
-                            label={content.LIGHT}
-                            labelPlacement="bottom"
-                        />
-                        <FormControlLabel
-                            value={darkBlue}
-                            control={<Radio className="blue" icon={<CircleIcon/>}/>}
-                            label={content.BLUE}
-                            labelPlacement="bottom"
-                        />
-                        <FormControlLabel
-                            value={red}
-                            control={<Radio className="red" icon={<CircleIcon/>}/>}
-                            label={content.RED}
-                            labelPlacement="bottom"
-                        />
-                    </RadioGroup>
-                    {/*<div className="price-container">*/}
-                    {/*    $$$*/}
-                    {/*</div>*/}
-                </FormControl>
-
+                {isMobile
+                    ? null
+                    : <ColorConfiguration/>
+                }
             </div>
         </div>
     );
