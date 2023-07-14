@@ -52,7 +52,7 @@ export const Home = (props) => {
         <div className={`main-container`}>
             <TopAppBar/>
             <Paper
-                className="selection-container"
+                className={`selection-container${isMobile ? ' is-mobile' : ''}`}
                 elevation={0}
                 square
             >

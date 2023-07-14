@@ -1,5 +1,6 @@
 $color-primary: #1F1F1F;
 $color-secondary: #F3F3F3;
+$color-secondary-opaque: #F3F3F380;
 $color-tertiary: #E3E0DB;
 $color-action: #F7BE78;
 $color-error: #FF1F1F;
@@ -21,6 +22,11 @@ $color-red: #8B0000;
     color: $color-primary;
     height: calc(100% - $app-bar-height - 40px);
     background: $color-secondary;
+
+    &.is-mobile {
+        padding: 0;
+        height: calc(100% - $app-bar-height);
+    }
 }
 
 .landing-page {
@@ -95,7 +101,7 @@ $color-red: #8B0000;
     border-bottom-right-radius: 10px;
 
     &.is-mobile {
-        right: unset;
+        right: 20px;
         top: unset;
         bottom: 10px;
         width: calc(100% - 40px);
@@ -234,12 +240,14 @@ $color-red: #8B0000;
 
 .color-selection-container {
     width: 100%;
+    border-radius: 5px;
 
     &.is-mobile {
         position: absolute;
         right: 10px;
         width: 40px;
-        bottom: 120px;
+        bottom: 130px;
+        background: $color-secondary-opaque;
 
         .color-selection {
             gap: 5px;
