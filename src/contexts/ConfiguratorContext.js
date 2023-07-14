@@ -75,7 +75,7 @@ export const ConfiguratorProvider = props => {
         });
 
         setCurrentWidth(newWidth);
-        autoSetShelves(updatedShelfArr, newWidth, currentHeight, currentHorizontalGap, currentVerticalGap);
+        autoSetShelves(updatedShelfArr, newWidth, currentHeight, currentDepth, currentHorizontalGap, currentVerticalGap);
     }
 
     const adjustHeight = newHeight => {
@@ -92,7 +92,7 @@ export const ConfiguratorProvider = props => {
         });
 
         setCurrentHeight(newHeight);
-        autoSetShelves(updatedShelfArr, currentWidth, newHeight, currentHorizontalGap, currentVerticalGap);
+        autoSetShelves(updatedShelfArr, currentWidth, newHeight, currentDepth, currentHorizontalGap, currentVerticalGap);
     }
 
     const adjustDepth = newDepth => {
@@ -107,20 +107,20 @@ export const ConfiguratorProvider = props => {
         });
 
         setCurrentDepth(newDepth);
-        setCurrentShelfArr(updatedShelfArr);
+        autoSetShelves(updatedShelfArr, currentWidth, currentHeight, newDepth, currentHorizontalGap, currentVerticalGap);
     }
 
     const adjustHorizontalGap = newHorizontalGap => {
         setCurrentHorizontalGap(newHorizontalGap);
-        autoSetShelves(currentShelfArr, currentWidth, currentHeight, newHorizontalGap, currentVerticalGap);
+        autoSetShelves(currentShelfArr, currentWidth, currentHeight, currentDepth, newHorizontalGap, currentVerticalGap);
     }
 
     const adjustVerticalGap = newVerticalGap => {
         setCurrentVerticalGap(newVerticalGap);
-        autoSetShelves(currentShelfArr, currentWidth, currentHeight, currentHorizontalGap, newVerticalGap);
+        autoSetShelves(currentShelfArr, currentWidth, currentHeight, currentDepth, currentHorizontalGap, newVerticalGap);
     }
 
-    const autoSetShelves = (shelfArr, width, height, horizontalGap, verticalGap) => {
+    const autoSetShelves = (shelfArr, width, height, depth, horizontalGap, verticalGap) => {
         const requiredVerticals = Math.ceil(width / horizontalGap) + 1;
         const requiredHorizontals = Math.ceil(height / verticalGap) + 1;
         const updatedVerticalArr = [];
@@ -128,7 +128,7 @@ export const ConfiguratorProvider = props => {
 
         for (let i = 0; i < requiredVerticals; i++) {
             updatedVerticalArr.push({
-                dimensions: [height, boardThickness, currentDepth],
+                dimensions: [height, boardThickness, depth],
                 position: {x: ((width / (requiredVerticals - 1) * i) - (boardThickness / 2)) - (width / 2)},
                 isVertical: true
             });
@@ -136,7 +136,7 @@ export const ConfiguratorProvider = props => {
 
         for (let i = 0; i < requiredHorizontals; i++) {
             updatedHorizontalArr.push({
-                dimensions: [width, boardThickness, currentDepth],
+                dimensions: [width, boardThickness, depth],
                 position: {y: ((height / (requiredHorizontals - 1) * i) - (boardThickness / 2)) - (height / 2)},
                 isVertical: false
             });

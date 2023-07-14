@@ -73,7 +73,6 @@ const ShelfSection = props => {
     const shelfEdgeMap = useTexture(plywoodEdge);
 
     const {dimensions, position, radius, color, isVertical = false, overHang = standardOverhang} = props;
-    console.log(color)
 
     const width = dimensions[0] + overHang * 2;
     const height = dimensions[1];
