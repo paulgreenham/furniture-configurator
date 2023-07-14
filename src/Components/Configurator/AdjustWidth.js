@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {language} from '../../content/language';
 import {GeneralContext} from "../../contexts/GeneralContext";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
@@ -19,10 +19,22 @@ export const AdjustWidth = () => {
     } = useContext(ConfiguratorContext);
 
     const [display, setDisplay] = useState("width");
-    const content = language[appLang];
+    const [mobileIsRotated, setMobileIsRotated] = useState(window.screen.orientation.type.includes('landscape'));
 
     const currentWidthInInches = currentWidth * 12;
     const density = 7 - currentHorizontalGap * 2;
+    const content = language[appLang];
+    const useSelector = isMobile && !mobileIsRotated;
+
+    useEffect(() => {
+        window.addEventListener('orientationchange', setRotation, false);
+
+        return () => window.removeEventListener('orientationchange', setRotation)
+    });
+
+    const setRotation = e => {
+        setMobileIsRotated(!!e.target.screen.orientation.type.includes('landscape'));
+    }
 
     const handleChangeWidth = (e, newWidth) => {
         adjustWidth(newWidth / 12);
@@ -44,7 +56,7 @@ export const AdjustWidth = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            {isMobile
+            {useSelector
                 ? <ToggleButtonGroup
                     className='toggle-button-group'
                     value={display}
@@ -62,7 +74,7 @@ export const AdjustWidth = () => {
                 </ToggleButtonGroup>
                 : null
             }
-            {(isMobile && display === "width") || !isMobile
+            {(useSelector && display === "width") || !useSelector
                 ? <Box className='slider-container'>
                     <Stack spacing={2} direction="row" sx={{mb: 1}} alignItems="center">
                         <RemoveIcon onClick={() => handleManualWidthChange(false)}/>
@@ -83,7 +95,7 @@ export const AdjustWidth = () => {
                 </Box>
                 : null
             }
-            {(isMobile && display === "density") || !isMobile
+            {(useSelector && display === "density") || !useSelector
                 ? <Box className='slider-container'>
                     <Stack spacing={2} direction="row" sx={{mb: 1}} alignItems="center">
                         <RemoveIcon onClick={() => handleManualDensityChange(false)}/>

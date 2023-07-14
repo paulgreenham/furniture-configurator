@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {language} from '../../content/language';
 import {GeneralContext} from "../../contexts/GeneralContext";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
@@ -17,11 +17,24 @@ export const AdjustHeight = () => {
         currentVerticalGap,
         adjustVerticalGap,
     } = useContext(ConfiguratorContext);
-    const content = language[appLang];
 
     const [display, setDisplay] = useState("height");
+    const [mobileIsRotated, setMobileIsRotated] = useState(window.screen.orientation.type.includes('landscape'));
+
     const currentHeightInInches = currentHeight * 12;
     const density= 7 - currentVerticalGap * 2;
+    const content = language[appLang];
+    const useSelector = isMobile && !mobileIsRotated;
+
+    useEffect(() => {
+        window.addEventListener('orientationchange', setRotation, false);
+
+        return () => window.removeEventListener('orientationchange', setRotation)
+    });
+
+    const setRotation = e => {
+        setMobileIsRotated(!!e.target.screen.orientation.type.includes('landscape'));
+    }
 
     const handleChangeHeight = (e, newHeight) => {
         adjustHeight(newHeight / 12);
@@ -43,7 +56,7 @@ export const AdjustHeight = () => {
 
     return (
         <div className='configurator-panel-tab-content'>
-            {isMobile
+            {useSelector
                 ? <ToggleButtonGroup
                     className='toggle-button-group'
                     value={display}
@@ -61,7 +74,7 @@ export const AdjustHeight = () => {
                 </ToggleButtonGroup>
                 : null
             }
-            {(isMobile && display === "height") || !isMobile
+            {(useSelector && display === "height") || !useSelector
                 ? <Box className='slider-container'>
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                         <RemoveIcon onClick={() => handleManualHeightChange(false)}/>
@@ -82,7 +95,7 @@ export const AdjustHeight = () => {
                 </Box>
                 : null
             }
-            {(isMobile && display === "density") || !isMobile
+            {(useSelector && display === "density") || !useSelector
                 ? <Box className='slider-container'>
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                         <RemoveIcon onClick={() => handleManualDensityChange(false)}/>

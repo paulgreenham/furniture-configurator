@@ -6,13 +6,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import logo from '../assets/logos/Logo_Inchi_white_background.jpg';
 import {Button} from "@mui/material";
+import {isMobile} from "react-device-detect";
 
 export const TopAppBar = () => {
     const {appLang, /*signOut*/} = useContext(GeneralContext);
     const content = language[appLang];
 
     return (
-        <div className='app-bar'>
+        <div className={`app-bar${isMobile ? ' is-mobile' : ''}`}>
             <AppBar position="static" color="secondary">
                 <Toolbar variant="dense">
                     <img src={logo} alt='INCHI logo' className='logo'/>
