@@ -19,7 +19,7 @@ export const AdjustWidth = () => {
     } = useContext(ConfiguratorContext);
 
     const [display, setDisplay] = useState("width");
-    const [mobileIsRotated, setMobileIsRotated] = useState(window.screen.orientation.type.includes('landscape'));
+    const [mobileIsRotated, setMobileIsRotated] = useState(false);
 
     const currentWidthInInches = currentWidth * 12;
     const density = 7 - currentHorizontalGap * 2;
@@ -27,13 +27,19 @@ export const AdjustWidth = () => {
     const useSelector = isMobile && !mobileIsRotated;
 
     useEffect(() => {
-        window.addEventListener('orientationchange', setRotation, false);
+        setRotation();
+    }, []);
 
-        return () => window.removeEventListener('orientationchange', setRotation)
+    useEffect(() => {
+        window.addEventListener('resize', setRotation, false);
+        return () => window.removeEventListener('resize', setRotation)
     });
 
-    const setRotation = e => {
-        setMobileIsRotated(!!e.target.screen.orientation.type.includes('landscape'));
+    const setRotation = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const isRotated = width > height;
+        setMobileIsRotated(isRotated);
     }
 
     const handleChangeWidth = (e, newWidth) => {

@@ -34,7 +34,7 @@ export const Home = (props) => {
                     </ConfiguratorProvider>
                 }/>
                 <Route path={routes.NOT_FOUND} element={<div>{content.NOT_FOUND}</div>}/>
-                <Route path={routes.ROOT} element={<div className='landing-page'>
+                <Route path={routes.ROOT} element={<div className={`landing-page${isMobile ? ' is-mobile' : ''}`}>
                     {content.WELCOME_TO_INCHI}
                     <Link to={routes.CONFIGURATOR}>
                         <Button

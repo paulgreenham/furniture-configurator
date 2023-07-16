@@ -39,6 +39,10 @@ $color-red: #8B0000;
     gap: 20px;
     justify-content: center;
     align-items: center;
+
+    &.is-mobile {
+        padding: 20px;
+    }
 }
 
 .standard-btn {
