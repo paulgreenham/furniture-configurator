@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import "../style.scss"
 import {Canvas} from "@react-three/fiber";
 import {useTexture, OrbitControls, useFBX} from "@react-three/drei";
@@ -6,6 +6,7 @@ import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
 import {isMobile} from "react-device-detect";
+import * as THREE from "three";
 
 const addMainSection = (width, height, depth, radius, shelfSideMap, shelfEdgeMap, color) =>
     !!color
@@ -107,9 +108,12 @@ const Floor = props => {
 }
 
 const Model = props => {
-    const {position} = props;
     const fbx = useFBX("/simple_woman_3d.fbx");
-    return <primitive object={fbx} scale={0.087} position={position} rotation={[0, -Math.PI / 6, 0]}/>;
+    const BasicMaterial = new THREE.MeshBasicMaterial({color: new THREE.Color("#E3E0DB")});
+    const model = useMemo(() => fbx.clone(true), []);
+    model.children.forEach((mesh, i) => {mesh.material = BasicMaterial});
+    const {position} = props;
+    return <primitive object={model} scale={0.087} position={position} rotation={[0, -Math.PI / 6, 0]}/>;
 }
 
 export const Configurator = () => {
@@ -119,7 +123,7 @@ export const Configurator = () => {
         addRemoveActive,
         selectedColor,
         floorY,
-        leftX,
+        rightX,
     } = useContext(ConfiguratorContext);
 
     return (
@@ -147,7 +151,7 @@ export const Configurator = () => {
                 )
             })}
             <Floor position={[0, floorY, 0]}/>
-            <Model position = {[leftX - 1.2, floorY, 0]}/>
+            <Model position = {[rightX + 1.2, floorY, 0]}/>
             <OrbitControls
                 dampingFactor={0.1}
                 maxAzimuthAngle={Math.PI * 1.1 / 2}

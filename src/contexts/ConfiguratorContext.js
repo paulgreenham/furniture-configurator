@@ -5,7 +5,7 @@ const edgeRadius = 0.03;
 const boardThickness = (21 / 32) / 12;
 const standardOverhang = 1.5 / 12;
 const allowedWidth = {min: 1, max: 8 - (2 * standardOverhang)};
-const allowedHeight = {min: 2, max: 8 - (2 * standardOverhang)};
+const allowedHeight = {min: 0.5, max: 8 - (2 * standardOverhang)};
 const allowedDepth = {min: 6 / 12 + standardOverhang, max: 21 / 12 - standardOverhang};
 
 const openingShelf = [
@@ -35,7 +35,7 @@ export const ConfiguratorProvider = props => {
     const [selectedColor, setSelectedColor] = useState("");  //"raw";
 
     const floorY = - 1 * (currentHeight / 2 + standardOverhang);
-    const leftX = - 1 * (currentWidth / 2 + standardOverhang);
+    const rightX = (currentWidth / 2 + standardOverhang);
 
     useEffect(() => {
         loadShelfUnit(openingShelf);
@@ -162,7 +162,7 @@ export const ConfiguratorProvider = props => {
             currentHorizontalGap,
             currentVerticalGap,
             floorY,
-            leftX,
+            rightX,
             addRemoveActive,
             selectedColor,
             setSelectedColor,
