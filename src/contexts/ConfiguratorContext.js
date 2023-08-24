@@ -35,6 +35,7 @@ export const ConfiguratorProvider = props => {
     const [selectedColor, setSelectedColor] = useState("");  //"raw";
 
     const floorY = - 1 * (currentHeight / 2 + standardOverhang);
+    const leftX = - 1 * (currentWidth / 2 + standardOverhang);
 
     useEffect(() => {
         loadShelfUnit(openingShelf);
@@ -161,6 +162,7 @@ export const ConfiguratorProvider = props => {
             currentHorizontalGap,
             currentVerticalGap,
             floorY,
+            leftX,
             addRemoveActive,
             selectedColor,
             setSelectedColor,

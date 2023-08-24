@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import "../style.scss"
 import {Canvas} from "@react-three/fiber";
-import {useTexture, OrbitControls} from "@react-three/drei";
+import {useTexture, OrbitControls, useFBX} from "@react-three/drei";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import birchSurface from '../../assets/textures/birch_surface.jpg';
 import plywoodEdge from '../../assets/textures/plywood_edge.jpg';
@@ -99,11 +99,17 @@ const ShelfSection = props => {
 const Floor = props => {
     const {position} = props;
     return (
-        <mesh position={position} rotation={[3 * Math.PI /2, 0, 0]}>
+        <mesh position={position} rotation={[3 * Math.PI / 2, 0, 0]}>
             <circleGeometry attach="geometry" args={[50]}/>
             <meshStandardMaterial attach="material" color="#F5F5F5"/>
         </mesh>
     )
+}
+
+const Model = props => {
+    const {position} = props;
+    const fbx = useFBX("/simple_woman_3d.fbx");
+    return <primitive object={fbx} scale={0.087} position={position} rotation={[0, -Math.PI / 6, 0]}/>;
 }
 
 export const Configurator = () => {
@@ -113,6 +119,7 @@ export const Configurator = () => {
         addRemoveActive,
         selectedColor,
         floorY,
+        leftX,
     } = useContext(ConfiguratorContext);
 
     return (
@@ -140,6 +147,7 @@ export const Configurator = () => {
                 )
             })}
             <Floor position={[0, floorY, 0]}/>
+            <Model position = {[leftX - 1.2, floorY, 0]}/>
             <OrbitControls
                 dampingFactor={0.1}
                 maxAzimuthAngle={Math.PI * 1.1 / 2}
