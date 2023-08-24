@@ -96,12 +96,23 @@ const ShelfSection = props => {
     )
 }
 
+const Floor = props => {
+    const {position} = props;
+    return (
+        <mesh position={position} rotation={[3 * Math.PI /2, 0, 0]}>
+            <circleGeometry attach="geometry" args={[50]}/>
+            <meshStandardMaterial attach="material" color="#F5F5F5"/>
+        </mesh>
+    )
+}
+
 export const Configurator = () => {
     const {
         edgeRadius,
         currentShelfArr,
         addRemoveActive,
         selectedColor,
+        floorY,
     } = useContext(ConfiguratorContext);
 
     return (
@@ -110,7 +121,7 @@ export const Configurator = () => {
             className={`configurator${isMobile ? " is-mobile" : ""}`}
             style={{background: addRemoveActive ? "#F5F5F5" : "inherit"}}
             shadows='true'
-            camera={{position: [3, 3, 5], rotation: [-Math.PI / 8, -Math.PI / 8, 0]}}
+            camera={{position: [3, 2, 5], rotation: [-Math.PI / 8, -Math.PI / 8, 0]}}
         >
             <pointLight position={[10, 10, 10]}/>
             <pointLight position={[-10, -10, -10]}/>
@@ -128,6 +139,7 @@ export const Configurator = () => {
                     />
                 )
             })}
+            <Floor position={[0, floorY, 0]}/>
             <OrbitControls
                 dampingFactor={0.1}
                 maxAzimuthAngle={Math.PI * 1.1 / 2}

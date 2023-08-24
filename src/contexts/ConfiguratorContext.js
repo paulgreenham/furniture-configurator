@@ -32,7 +32,9 @@ export const ConfiguratorProvider = props => {
     const [currentVerticalGap, setCurrentVerticalGap] = useState(3);
     //add current width/height density (initially calculate from loaded shelf)
     const [addRemoveActive, setAddRemoveActive] = useState(false);
-    const [selectedColor, setSelectedColor] = useState("");  //"raw"
+    const [selectedColor, setSelectedColor] = useState("");  //"raw";
+
+    const floorY = - 1 * (currentHeight / 2 + standardOverhang);
 
     useEffect(() => {
         loadShelfUnit(openingShelf);
@@ -158,6 +160,7 @@ export const ConfiguratorProvider = props => {
             currentDepth,
             currentHorizontalGap,
             currentVerticalGap,
+            floorY,
             addRemoveActive,
             selectedColor,
             setSelectedColor,
