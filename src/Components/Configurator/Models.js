@@ -13,6 +13,16 @@ export const Floor = props => {
     )
 }
 
+export const Wall = props => {
+    const {position} = props;
+    return (
+        <mesh position={position} receiveShadow>
+            <circleGeometry attach="geometry" args={[50]}/>
+            <meshStandardMaterial/>
+        </mesh>
+    )
+}
+
 export const HumanModel = props => {
     const fbx = useFBX("/simple_woman_3d.fbx");
     const BasicMaterial = new THREE.MeshBasicMaterial({color: new THREE.Color("#E3E0DB")});

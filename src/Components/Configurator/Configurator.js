@@ -4,7 +4,7 @@ import {Canvas} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import {ConfiguratorContext} from "../../contexts/ConfiguratorContext";
 import {isMobile} from "react-device-detect";
-import {HumanModel, Floor} from "./Models";
+import {HumanModel, Floor, Wall} from "./Models";
 import ShelfSection from "./ShelfSection";
 
 export const Configurator = () => {
@@ -15,6 +15,7 @@ export const Configurator = () => {
         selectedColor,
         floorY,
         rightX,
+        backZ,
     } = useContext(ConfiguratorContext);
 
     return (
@@ -41,11 +42,12 @@ export const Configurator = () => {
                 )
             })}
             <Floor position={[0, floorY, 0]}/>
+            <Wall position={[0, 0, backZ]}/>
             <HumanModel position = {[rightX + 1.2, floorY, 0]}/>
             <OrbitControls
                 dampingFactor={0.1}
-                maxAzimuthAngle={Math.PI * 1.1 / 2}
-                minAzimuthAngle={-Math.PI * 1.1 / 2}
+                maxAzimuthAngle={Math.PI / 2}
+                minAzimuthAngle={-Math.PI / 2}
                 maxPolarAngle={Math.PI / 2}
                 minPolarAngle={-Math.PI * 5 / 8}
             />
