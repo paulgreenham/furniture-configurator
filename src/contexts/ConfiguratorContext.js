@@ -153,6 +153,7 @@ export const ConfiguratorProvider = props => {
         <ConfiguratorContext.Provider value={{
             edgeRadius,
             standardOverhang,
+            boardThickness,
             allowedWidth,
             allowedHeight,
             allowedDepth,
