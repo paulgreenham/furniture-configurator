@@ -47,7 +47,7 @@ export const BooksModelTwo = props => {
 export const BooksModelThree = props => {
     const fbx = useFBX("/fbx-models/book_set3.fbx");
     const [x, y, z] = props.position;
-    return <primitive object={fbx} scale={0.045} position={[x + 0.1, y - 0.271, z - 0.2]} rotation={[0.0375, 3 * Math.PI / 4, 0]}/>;
+    return <primitive object={fbx} scale={0.045} position={[x + 0.1, y - 0.236, z - 0.2]} rotation={[0.0375, 3 * Math.PI / 4, 0]}/>;
 }
 
 export const BooksModelFour = props => {
