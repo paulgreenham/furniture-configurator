@@ -78,10 +78,10 @@ export const Configurator = () => {
             if (itemCount < totalItems) {
                 const isOddShelf = index % 2 === 1;
                 const count = index + randomSeed;
-                const spaceDislocation = (count % verticalSpaces) || 1;
+                const spaceDislocation = Math.ceil(count % verticalSpaces);
                 console.log(count, spaceDislocation, verticalSpaces)
                 const spacePosition = isOddShelf ? verticalSpaces - spaceDislocation : spaceDislocation;
-                const itemX = sortedVerticalShelves[spacePosition].position.x - (currentSpaceWidth / 2) - (boardThickness / 2);
+                const itemX = sortedVerticalShelves[spacePosition].position.x + (currentSpaceWidth / 2) + (boardThickness / 2);
                 const itemY = horizontalShelf.position.y + boardThickness / 2;
                 itemList.push(getItem([itemX, itemY, 0], itemCount));
                 itemCount ++;
