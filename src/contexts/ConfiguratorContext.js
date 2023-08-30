@@ -33,6 +33,7 @@ export const ConfiguratorProvider = props => {
     //add current width/height density (initially calculate from loaded shelf)
     const [addRemoveActive, setAddRemoveActive] = useState(false);
     const [selectedColor, setSelectedColor] = useState("");  //"raw";
+    const [randomSeed, setRandomSeed] = useState(Math.ceil(Math.random() * 3));
 
     const floorY = - 1 * (currentHeight / 2 + standardOverhang);
     const rightX = (currentWidth / 2 + standardOverhang);
@@ -63,6 +64,7 @@ export const ConfiguratorProvider = props => {
         setCurrentHeight(maxHeight);
         setCurrentDepth(maxDepth);
         setCurrentShelfArr(unitArr);
+        setRandomSeed(Math.ceil(Math.random() * 3));
     }
 
     const adjustWidth = newWidth => {
@@ -166,6 +168,7 @@ export const ConfiguratorProvider = props => {
             floorY,
             rightX,
             backZ,
+            randomSeed,
             addRemoveActive,
             selectedColor,
             setSelectedColor,

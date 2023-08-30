@@ -25,7 +25,7 @@ export const Wall = props => {
 
 export const HumanModel = props => {
     const fbx = useFBX("/fbx-models/simple_woman_3d.fbx");
-    const BasicMaterial = new THREE.MeshBasicMaterial({color: new THREE.Color("#E3E0DB")});
+    const BasicMaterial = new THREE.MeshBasicMaterial({color: new THREE.Color("#F3F3F3")});
     const model = useMemo(() => fbx.clone(true), []);
     model.children.forEach((mesh, i) => {mesh.material = BasicMaterial});
     const {position} = props;
@@ -47,7 +47,7 @@ export const BooksModelTwo = props => {
 export const BooksModelThree = props => {
     const fbx = useFBX("/fbx-models/book_set3.fbx");
     const [x, y, z] = props.position;
-    return <primitive object={fbx} scale={0.05} position={[x, y - 0.271, z]} rotation={[0.0375, 3 * Math.PI / 4, 0]}/>;
+    return <primitive object={fbx} scale={0.045} position={[x + 0.1, y - 0.271, z - 0.2]} rotation={[0.0375, 3 * Math.PI / 4, 0]}/>;
 }
 
 export const BooksModelFour = props => {
@@ -59,7 +59,7 @@ export const BooksModelFour = props => {
 export const BooksModelFive = props => {
     const fbx = useFBX("/fbx-models/book_set5.fbx");
     const [x, y, z] = props.position;
-    return <primitive object={fbx} scale={0.055} position={[x + 0.3, y + 0.31, z]} rotation={[0, 0,Math.PI / 2]}/>;
+    return <primitive object={fbx} scale={0.055} position={[x + 0.3, y + 0.31, z]} rotation={[0, 0, Math.PI / 2]}/>;
 }
 
 export const PotPlantModelOne = props => {
